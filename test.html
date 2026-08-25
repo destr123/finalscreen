@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Premium Minimal Success</title>
+    <title>DxS Pay | Celebration Success</title>
+    <!-- Подключаем ультралегкую и плавную библиотеку конфетти (мировой стандарт) -->
+    <script src="https://jsdelivr.net"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -11,7 +13,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF; /* Чистый премиальный белый фон Apple */
+            background-color: #FFFFFF; /* Чистый премиальный фон */
         }
 
         body {
@@ -23,7 +25,7 @@
             padding: 24px;
         }
 
-        /* 🪐 ЦЕНТРАЛЬНЫЙ БЛОК УСПЕХА */
+        /* 🪐 ЦЕНТРАЛЬНЫЙ БЛОК */
         .status-center {
             text-align: center;
             display: flex;
@@ -33,16 +35,14 @@
             width: 100%;
         }
 
-        /* Векторная галочка Apple с идеальными границами */
         .apple-checkmark-svg {
             width: 100px;
             height: 100px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             filter: drop-shadow(0 8px 20px rgba(20, 200, 86, 0.15));
             overflow: visible;
         }
 
-        /* Плавная прорисовка круга */
         .circle-path {
             fill: none;
             stroke: #14C856;
@@ -52,7 +52,6 @@
             animation: drawCircle 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* Плавная прорисовка стрелки */
         .check-path {
             fill: none;
             stroke: #14C856;
@@ -61,21 +60,53 @@
             stroke-linejoin: round;
             stroke-dasharray: 60;
             stroke-dashoffset: 60;
-            animation: drawCheck 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+            /* Стрелка вылетает ровно к слову "Успешно" на 1.2 сек */
+            animation: drawCheck 0.4s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
         }
 
-        /* Мягкое проявление заголовка без рывков */
-        .main-title {
-            font-size: 26px;
+        /* 🎤 СТИЛИ ДЛЯ ПОЭТАПНОГО ВЫЛЕТА СЛОВ (APPLE STYLE) */
+        .word-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .word {
+            font-size: 28px;
             font-weight: 700;
             color: #111111;
             letter-spacing: -0.5px;
             opacity: 0;
-            transform: translateY(10px);
-            animation: titleFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.7s forwards;
+            transform: translateY(15px);
         }
 
-        /* 🧾 ЭЛЕГАНТНЫЙ ЧЕК DXS PAY (Инерционный выкат снизу) */
+        /* Слово 1: Оплата */
+        .word-1 {
+            animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards;
+        }
+
+        /* Слово 2: прошла */
+        .word-2 {
+            animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
+        }
+
+        /* Слово 3: успешно! */
+        .word-3 {
+            color: #14C856; /* Выделяем финальное триумфальное слово твоим зеленым цветом */
+            font-size: 32px; /* Чуть крупнее для акцента */
+            animation: wordPopInIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+        }
+
+        @keyframes wordPopIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Финальное слово влетает с легким пружинящим эффектом */
+        @keyframes wordPopInIn {
+            to { opacity: 1; transform: translateY(0) scale(1.05); }
+        }
+
+        /* 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫКАТЫВАЕТСЯ ПОЗЖЕ) */
         .premium-receipt-card {
             background: #FFFFFF;
             border-radius: 32px;
@@ -86,8 +117,9 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
             
             opacity: 0;
-            transform: scale(0.97) translateY(25px);
-            animation: receiptRevealEase 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.1s forwards;
+            transform: scale(0.96) translateY(30px);
+            /* Выкатывается на 2.4 секунде, когда салют из конфетти уже в разгаре */
+            animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.4s forwards;
         }
 
         .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 20px; }
@@ -111,7 +143,6 @@
         .value { color: #111111; font-weight: 500; }
         .value.price { color: #14C856; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; }
 
-        /* ПРЕМИАЛЬНАЯ КНОПКА */
         .btn-done {
             display: block;
             width: 100%;
@@ -132,10 +163,9 @@
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        /* 🎬 ИДЕАЛЬНО ПЛАВНЫЕ АНИМАЦИИ БЕЗ НАГРУЗКИ НА ПРОЦЕССОР */
+        /* Базовые тайминги анимаций */
         @keyframes drawCircle { to { stroke-dashoffset: 0; } }
         @keyframes drawCheck { to { stroke-dashoffset: 0; } }
-        @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
         @keyframes receiptRevealEase { to { opacity: 1; transform: scale(1) translateY(0); } }
     </style>
 </head>
@@ -147,10 +177,16 @@
             <circle class="circle-path" cx="30" cy="30" r="25"/>
             <path class="check-path" d="M20 31 L26.5 37.5 L40.5 23"/>
         </svg>
-        <h1 class="main-title">Оплата прошла успешно!</h1>
+        
+        <!-- Построчный вылет слов -->
+        <div class="word-container">
+            <div class="word word-1">Оплата</div>
+            <div class="word word-2">прошла</div>
+            <div class="word word-3">успешно!</div>
+        </div>
     </div>
 
-    <!-- 🧾 ЧЕК DXS PAY -->
+    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY -->
     <div class="premium-receipt-card">
         <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
 
@@ -176,5 +212,27 @@
         </div>
     </div>
 
+    <!-- 🚀 СКРИПТ ВЗРЫВА КОНФЕТТИ В СИНХРОНЕ С ПОСЛЕДНИМ СЛОВОМ -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Запуск салюта ровно на 1300 мс (момент появления слова "успешно!" и щелчка галочки)
+            setTimeout(() => {
+                // Первый залп из центра
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.35 },
+                    colors: ['#14C856', '#A3F7B5', '#0ED95A', '#FFD700', '#FF4136'] // Твои зеленые + золотой и красный для сочности
+                });
+
+                // Боковые залпы для объема (эффект стадиона)
+                setTimeout(() => {
+                    confetti({ particleCount: 40, angle: 60, spread: 55, origin: { x: 0, y: 0.4 } });
+                    confetti({ particleCount: 40, angle: 120, spread: 55, origin: { x: 1, y: 0.4 } });
+                }, 150);
+                
+            }, 1300);
+        });
+    </script>
 </body>
 </html>
