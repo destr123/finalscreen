@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Success</title>
+    <title>DxS Pay | Apple Intelligence Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -11,7 +11,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF; /* Премиальный чистый белый фон */
+            background-color: #FFFFFF; /* Чистый белый фон Apple */
         }
 
         body {
@@ -20,39 +20,47 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
             padding: 24px;
         }
 
-        /* 🪐 ЦЕНТРАЛЬНЫЙ БЛОК УСПЕХА */
-        .status-center {
+        /* 🔮 СКРЫТЫЙ ХОЛСТ ДЛЯ ЖИДКОЙ АНИМАЦИИ SIRI */
+        #siri-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 🪐 ЕДИНОЕ ИИ-ЯДРО (ГАЛОЧКА + ТЕКСТ) */
+        .core-success-block {
             text-align: center;
+            z-index: 100;
+            pointer-events: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 24px;
-            width: 100%;
+            position: absolute;
+            top: 32%;
+            transform: translateY(-50%);
         }
 
-        /* Премиальная векторная галочка Apple с запасом пространства по краям */
         .apple-checkmark-svg {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 8px 20px rgba(20, 200, 86, 0.15));
-            overflow: visible; /* Дополнительная защита от обрезания */
+            width: 100px; height: 100px;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 10px 20px rgba(20, 200, 86, 0.15));
         }
 
-        /* Анимация прорисовки круга */
         .circle-path {
             fill: none;
             stroke: #14C856;
             stroke-width: 4.5;
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
-            animation: drawCircle 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: syncCircle 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* Анимация прорисовки стрелки (исправлены лимиты шлейфа под сетку 60х60) */
         .check-path {
             fill: none;
             stroke: #14C856;
@@ -61,10 +69,12 @@
             stroke-linejoin: round;
             stroke-dasharray: 60;
             stroke-dashoffset: 60;
-            animation: drawCheck 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+            animation: syncCheck 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
         }
 
-        /* Появление текста успешной оплаты */
+        @keyframes syncCircle { to { stroke-dashoffset: 0; } }
+        @keyframes syncCheck { to { stroke-dashoffset: 0; } }
+
         .main-title {
             font-size: 26px;
             font-weight: 700;
@@ -72,10 +82,11 @@
             letter-spacing: -0.5px;
             opacity: 0;
             transform: translateY(12px);
-            animation: titleFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
+            animation: titleFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.2s forwards;
         }
+        @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* 🧾 ЭЛЕГАНТНЫЙ ЧЕК DXS PAY (ВЫКАТЫВАЕТСЯ СНИЗУ ПОЗЖЕ) */
+        /* 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY */
         .premium-receipt-card {
             background: #FFFFFF;
             border-radius: 32px;
@@ -84,16 +95,18 @@
             max-width: 358px;
             text-align: center;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+            z-index: 10;
+            position: absolute;
+            bottom: 6%;
             
             opacity: 0;
-            transform: scale(0.97) translateY(30px);
-            /* Выплывает строго на 1.3 сек, когда заголовок уже встал на место */
-            animation: receiptRevealEase 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+            transform: scale(0.96) translateY(35px);
+            /* Выкатывается на 2.2 секунде, когда Siri угасает */
+            animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
         }
 
         .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 20px; }
 
-        /* Внутренние строки чека */
         .info-container {
             background: #F8F9FA;
             border-radius: 18px;
@@ -113,7 +126,6 @@
         .value { color: #111111; font-weight: 500; }
         .value.price { color: #14C856; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; }
 
-        /* КНОПКА ЗАКРЫТИЯ */
         .btn-done {
             display: block;
             width: 100%;
@@ -134,27 +146,26 @@
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        /* 🎬 МАТЕМАТИКА ТАЙМИНГОВ */
-        @keyframes drawCircle { to { stroke-dashoffset: 0; } }
-        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
-        @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
-        @keyframes receiptRevealEase { to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes receiptRevealEase {
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 🪐 ЦЕНТР: Идеальный круг без эффекта зажатости в коробке -->
-    <div class="status-center">
+    <!-- Холст для жидкой ИИ-анимации по границам экрана -->
+    <canvas id="siri-canvas"></canvas>
+
+    <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО -->
+    <div class="core-success-block">
         <svg class="apple-checkmark-svg" viewBox="0 0 60 60">
-            <!-- Центр смещен в точку 30, радиус 25. Линия 4.5px теперь сидит идеально свободно -->
             <circle class="circle-path" cx="30" cy="30" r="25"/>
-            <!-- Пересчитанные координаты стрелки для точной центровки в новой сетке 60х60 -->
             <path class="check-path" d="M20 31 L26.5 37.5 L40.5 23"/>
         </svg>
         <h1 class="main-title">Оплата прошла успешно!</h1>
     </div>
 
-    <!-- 🧾 НИЗ: Премиальный чек DXS PAY -->
+    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY -->
     <div class="premium-receipt-card">
         <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
 
@@ -173,12 +184,91 @@
             </div>
         </div>
 
-        <button class="btn-close btn-done">Закрыть страницу</button>
+        <button class="btn-done">Закрыть страницу</button>
         
         <div class="brand-footer">
             Платёжная система <span>DxS Pay</span>
         </div>
     </div>
 
+    <!-- 🚀 СКРИПТ ЖИДКОЙ АНИМАЦИИ SIRI (APPLE INTELLIGENCE STYLE) -->
+    <script>
+        const canvas = document.getElementById('siri-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        let startTime = Date.now();
+        let globalOpacity = 1;
+
+        function drawSiriAura() {
+            let elapsed = (Date.now() - startTime) / 1000;
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Управление логикой исчезновения рамок после завершения (через 1.5 сек)
+            if (elapsed > 1.5) {
+                // Плавное затухание и два мягких ИИ-вздоха (пульсации)
+                let fadePhase = elapsed - 1.5;
+                let pulse = 1 + Math.sin(fadePhase * Math.PI * 2) * 0.15;
+                globalOpacity = Math.max(0, 1 - fadePhase * 1.2);
+                ctx.globalAlpha = globalOpacity;
+            }
+
+            if (globalOpacity <= 0) return; // Полностью отключаем рендер, когда погасло
+
+            // 2. Рассчитываем длину заполнения «воды» из точек 1 (середина боков)
+            let progress = Math.min(1, elapsed / 1.5); 
+            let currentGlowSize = 35 + Math.sin(elapsed * 5) * 8; // Плавное волнистое "дыхание" краев
+
+            ctx.save();
+            
+            // Настраиваем размытие для глубокого Siri-эффекта
+            ctx.filter = `blur(${currentGlowSize}px)`;
+
+            // Создаем многослойные жидкие переливы градиента по периметру
+            let gradientLeft = ctx.createRadialGradient(0, height / 2, 10, 0, height / 2, width * 0.45 * progress);
+            gradientLeft.addColorStop(0, '#14C856');
+            gradientLeft.addColorStop(0.3, '#A3F7B5'); // Мятный шлейф
+            gradientLeft.addColorStop(1, 'rgba(255,255,255,0)');
+
+            let gradientRight = ctx.createRadialGradient(width, height / 2, 10, width, height / 2, width * 0.45 * progress);
+            gradientRight.addColorStop(0, '#0ED95A');
+            gradientRight.addColorStop(0.4, '#14C856');
+            gradientRight.addColorStop(1, 'rgba(255,255,255,0)');
+
+            // Отрисовка жидких полей
+            ctx.fillStyle = gradientLeft;
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.fillStyle = gradientRight;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.restore();
+
+            // Создаем внутреннюю защитную маску, чтобы свет не затекал на саму галочку
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            let maskGrad = ctx.createRadialGradient(width/2, height*0.32, 10, width/2, height*0.32, 140);
+            maskGrad.addColorStop(0, 'rgba(0,0,0,1)');
+            maskGrad.addColorStop(0.6, 'rgba(0,0,0,0.8)');
+            maskGrad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = maskGrad;
+            ctx.beginPath();
+            ctx.arc(width/2, height*0.32, 150, 0, Math.PI*2);
+            ctx.fill();
+            ctx.restore();
+
+            requestAnimationFrame(drawSiriAura);
+        }
+
+        // Запуск волны
+        requestAnimationFrame(drawSiriAura);
+    </script>
 </body>
 </html>
