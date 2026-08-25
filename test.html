@@ -30,35 +30,37 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 24px;
+            width: 100%;
         }
 
-        /* Премиальная векторная галочка Apple */
+        /* Премиальная векторная галочка Apple с запасом пространства по краям */
         .apple-checkmark-svg {
-            width: 96px;
-            height: 96px;
+            width: 100px;
+            height: 100px;
             margin-bottom: 20px;
             filter: drop-shadow(0 8px 20px rgba(20, 200, 86, 0.15));
+            overflow: visible; /* Дополнительная защита от обрезания */
         }
 
         /* Анимация прорисовки круга */
         .circle-path {
             fill: none;
             stroke: #14C856;
-            stroke-width: 4;
+            stroke-width: 4.5;
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
             animation: drawCircle 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* Анимация прорисовки стрелки */
+        /* Анимация прорисовки стрелки (исправлены лимиты шлейфа под сетку 60х60) */
         .check-path {
             fill: none;
             stroke: #14C856;
             stroke-width: 5.5;
             stroke-linecap: round;
             stroke-linejoin: round;
-            stroke-dasharray: 50;
-            stroke-dashoffset: 50;
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
             animation: drawCheck 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
         }
 
@@ -81,7 +83,6 @@
             width: 100%;
             max-width: 358px;
             text-align: center;
-            /* Очень мягкая премиальная тень Apple */
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
             
             opacity: 0;
@@ -142,16 +143,18 @@
 </head>
 <body>
 
-    <!-- 🪐 ЦЕНТР: Четкий фокус на успехе операции -->
+    <!-- 🪐 ЦЕНТР: Идеальный круг без эффекта зажатости в коробке -->
     <div class="status-center">
-        <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
-            <circle class="circle-path" cx="26" cy="26" r="24.5"/>
-            <path class="check-path" d="M16 27.5 L22.5 34 L36.5 19.5"/>
+        <svg class="apple-checkmark-svg" viewBox="0 0 60 60">
+            <!-- Центр смещен в точку 30, радиус 25. Линия 4.5px теперь сидит идеально свободно -->
+            <circle class="circle-path" cx="30" cy="30" r="25"/>
+            <!-- Пересчитанные координаты стрелки для точной центровки в новой сетке 60х60 -->
+            <path class="check-path" d="M20 31 L26.5 37.5 L40.5 23"/>
         </svg>
         <h1 class="main-title">Оплата прошла успешно!</h1>
     </div>
 
-    <!-- 🧾 НИЗ: Спокойное появление чека -->
+    <!-- 🧾 НИЗ: Премиальный чек DXS PAY -->
     <div class="premium-receipt-card">
         <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
 
@@ -170,7 +173,7 @@
             </div>
         </div>
 
-        <button class="btn-done">Закрыть страницу</button>
+        <button class="btn-close btn-done">Закрыть страницу</button>
         
         <div class="brand-footer">
             Платёжная система <span>DxS Pay</span>
