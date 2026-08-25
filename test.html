@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Aurora Premium Success</title>
+    <title>DxS Pay | Symmetrical Premium Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -11,7 +11,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF; /* С первой секунды благородный белый */
+            background-color: #FFFFFF;
         }
 
         body {
@@ -24,7 +24,7 @@
             padding: 24px;
         }
 
-        /* 🪐 1. ГЛУБОКАЯ ГРАДИЕНТНАЯ АУРА GEMINI (ЗАХОДИТ ГЛУБОКО НА ЭКРАН) */
+        /* 🪐 1. СИММЕТРИЧНАЯ ГЛУБОКАЯ ГРАДИЕНТНАЯ АУРА (РАСТЕКАНИЕ С БОКОВ) */
         .aura-system {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -32,65 +32,63 @@
             z-index: 9999;
             overflow: hidden;
             opacity: 0;
-            /* Синхронный накат волн за 1.8с, затем мигание и угасание */
+            /* Накат ровно 1.8с, затем мигание и угасание */
             animation: 
                 auraWaveIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards,
                 auraPulseAndFade 1.0s cubic-bezier(0.25, 1, 0.5, 1) 1.8s forwards;
         }
 
-        /* Левая глубокая волна (Точка 1) */
+        /* Зеркальное левое облако (Старт из центра левой грани "1") */
         .aura-left {
             position: absolute;
-            top: 50%; left: -30%;
-            width: 80%; height: 80%;
-            transform: translateY(-50%) scale(0.5);
-            /* Переливающийся премиальный градиент */
-            background: radial-gradient(ellipse at center, #14C856 0%, #A3F7B5 40%, rgba(255,255,255,0) 70%);
-            filter: blur(60px); /* Максимально мягкое и глубокое рассеивание */
-            animation: fluidBreatheLeft 4s infinite ease-in-out;
+            top: 50%; 
+            left: -40%; /* Выверенная глубина захода на экран */
+            width: 85vh; height: 85vh; /* Привязка к высоте экрана для идеального круга */
+            transform: translateY(-50%);
+            /* Идеально круговой градиент переливания */
+            background: radial-gradient(circle at center, #14C856 0%, #A3F7B5 35%, rgba(255,255,255,0) 65%);
+            filter: blur(65px);
+            animation: fluidBreatheLeft 5s infinite ease-in-out;
         }
 
-        /* Правая глубокая волна (Точка 1) */
+        /* Зеркальное правое облако (Старт из центра правой грани "1") */
         .aura-right {
             position: absolute;
-            top: 50%; right: -30%;
-            width: 80%; height: 80%;
-            transform: translateY(-50%) scale(0.5);
-            background: radial-gradient(ellipse at center, #0ED95A 0%, #14C856 50%, rgba(255,255,255,0) 70%);
-            filter: blur(60px);
-            animation: fluidBreatheRight 4s infinite ease-in-out;
+            top: 50%; 
+            right: -40%; /* Абсолютно зеркально левому */
+            width: 85vh; height: 85vh;
+            transform: translateY(-50%);
+            background: radial-gradient(circle at center, #14C856 0%, #A3F7B5 35%, rgba(255,255,255,0) 65%);
+            filter: blur(65px);
+            animation: fluidBreatheRight 5s infinite ease-in-out;
         }
 
-        /* 🎬 АНИМАЦИЯ: ГЛУБОКИЙ НАКАТ ГРАДИЕНТА С БОКОВ В ЦЕНТР */
+        /* 🎬 СИНХРОННЫЙ И СИММЕТРИЧНЫЙ НАКАТ ВОЛН С БОКОВ В ЦЕНТР */
         @keyframes auraWaveIn {
-            0% { opacity: 0; }
-            100% { 
-                opacity: 1;
-                /* Волны заходят безумно глубоко внутрь экрана */
-                left: -15%; right: -15%; 
-            }
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Постоянное плавное перетекание жидкого градиента пока идет анимация */
+        /* Зеркальное, размеренное ИИ-дыхание и перетекание жидкого цвета */
         @keyframes fluidBreatheLeft {
-            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); opacity: 0.9; }
-            50% { transform: translateY(-45%) scale(1.2) rotate(15deg); opacity: 1; }
+            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); opacity: 0.85; }
+            50% { transform: translateY(-48%) scale(1.1) rotate(10deg); opacity: 1; }
         }
         @keyframes fluidBreatheRight {
-            0%, 100% { transform: translateY(-50%) scale(1.1) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-55%) scale(0.9) rotate(-20deg); opacity: 0.8; }
+            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); opacity: 0.85; }
+            50% { transform: translateY(-52%) scale(1.1) rotate(-10deg); opacity: 1; }
         }
 
-        /* 🎬 МИГАНИЕ АУРЫ И ПОЛНОЕ УГАСАНИЕ В БЕЛОМ ФОНЕ */
+        /* 🎬 ПРЕМИАЛЬНОЕ СИНХРОННОЕ МИГАНИЕ И УГАСАНИЕ АУРЫ */
         @keyframes auraPulseAndFade {
             0% { filter: brightness(1); opacity: 1; }
-            30% { filter: brightness(1.3); opacity: 0.4; }
-            60% { filter: brightness(1.4); opacity: 1; }
+            25% { filter: brightness(1.25); opacity: 0.4; }
+            50% { filter: brightness(1.3); opacity: 1; }
             100% { opacity: 0; visibility: hidden; }
         }
 
 
-        /* 🪐 2. ЕДИНОЕ ИИ-ЯДРО (ГАЛОЧКА + ТЕКСТ) */
+        /* 🪐 2. ЕДИНОЕ ИИ-ЯДРО (ГАЛОЧКА + ТЕКСТ СТРОГО ПО ЦЕНТРУ) */
         .core-success-block {
             text-align: center;
             z-index: 100;
@@ -106,7 +104,7 @@
         .apple-checkmark-svg {
             width: 100px; height: 100px;
             margin-bottom: 24px;
-            filter: drop-shadow(0 12px 24px rgba(20, 200, 86, 0.2));
+            filter: drop-shadow(0 12px 24px rgba(20, 200, 86, 0.15));
         }
 
         /* Круг и стрелка рисуются синхронно с накатом глубокой ауры */
@@ -133,7 +131,7 @@
         @keyframes syncCircle { to { stroke-dashoffset: 0; } }
         @keyframes syncCheck { to { stroke-dashoffset: 0; } }
 
-        /* Текст не исчезает, остается вместе с галочкой */
+        /* Текст неразрывно связан с галочкой и остается на экране всегда */
         .main-title {
             font-size: 26px;
             font-weight: 700;
@@ -146,7 +144,7 @@
         @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
 
 
-        /* 🧾 3. ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫЕЗЖАЕТ ИЗ ФОНА В КОНЦЕ) */
+        /* 🧾 3. ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫЕЗЖАЕТ СНИЗУ ПОСЛЕ УГАСАНИЯ) */
         .premium-receipt-card {
             background: #FFFFFF;
             border-radius: 32px;
@@ -213,13 +211,13 @@
 </head>
 <body>
 
-    <!-- 🔮 ГЛУБОКАЯ ГРАДИЕНТНАЯ АУРА ИИ (Объемные наплывы с боков дисплея) -->
+    <!-- 🔮 ГЛУБОКАЯ СИММЕТРИЧНАЯ АУРА ИИ -->
     <div class="aura-system">
         <div class="aura-left"></div>
         <div class="aura-right"></div>
     </div>
 
-    <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО (Галочка + Текст, которые ОСТАЮТСЯ) -->
+    <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО -->
     <div class="core-success-block">
         <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
             <circle class="circle-path" cx="26" cy="26" r="24.5"/>
@@ -228,7 +226,7 @@
         <h1 class="main-title">Оплата прошла успешно!</h1>
     </div>
 
-    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (Появляется в самом конце снизу) -->
+    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY -->
     <div class="premium-receipt-card">
         <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
 
