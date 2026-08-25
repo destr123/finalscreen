@@ -11,7 +11,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF; /* Чистый белый фон */
+            background-color: #FFFFFF; /* Премиальный чистый белый фон */
         }
 
         body {
@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* 🪐 ХОЛСТ ДЛЯ АВТОНОМНОГО КОНФЕТТИ */
+        /* ХОЛСТ ДЛЯ АВТОНОМНОГО КОНФЕТТИ */
         #confetti-canvas {
             position: fixed;
             top: 0; left: 0;
@@ -72,33 +72,35 @@
             animation: drawCheck 0.4s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
         }
 
-        /* ПОЭТАПНЫЙ ВЫЛЕТ СЛОВ */
+        /* 🎤 РЯД СЛОВ В ОДНУ ЛИНИЮ */
         .word-container {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
+            flex-direction: row; /* Выстроили в горизонтальный ряд */
+            gap: 7px; /* Аккуратный отступ между словами */
             align-items: center;
+            justify-content: center;
         }
 
         .word {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
             color: #111111;
             letter-spacing: -0.5px;
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateY(12px);
         }
 
+        /* Поэтапный накат слева направо */
         .word-1 { animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; }
         .word-2 { animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards; }
         .word-3 {
-            color: #14C856;
-            font-size: 32px;
+            color: #14C856; /* Выделяем триумфальное слово твоим зеленым */
+            font-size: 28px;
             animation: wordPopInIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
         }
 
         @keyframes wordPopIn { to { opacity: 1; transform: translateY(0); } }
-        @keyframes wordPopInIn { to { opacity: 1; transform: translateY(0) scale(1.05); } }
+        @keyframes wordPopInIn { to { opacity: 1; transform: translateY(0) scale(1.04); } }
 
         /* 🧾 ЧЕК DXS PAY */
         .premium-receipt-card {
@@ -164,7 +166,7 @@
 </head>
 <body>
 
-    <!-- Нативный холст для конфетти -->
+    <!-- Нативный автономный холст для конфетти -->
     <canvas id="confetti-canvas"></canvas>
 
     <!-- 🪐 ЦЕНТРАЛЬНАЯ ЧАСТЬ -->
@@ -174,6 +176,7 @@
             <path class="check-path" d="M20 31 L26.5 37.5 L40.5 23"/>
         </svg>
         
+        <!-- Слова выстроены горизонтально -->
         <div class="word-container">
             <div class="word word-1">Оплата</div>
             <div class="word word-2">прошла</div>
@@ -207,7 +210,7 @@
         </div>
     </div>
 
-    <!-- 🚀 НАДЁЖНЫЙ АВТОНОМНЫЙ ДВИЖОК КОНФЕТТИ НА ЧИСТОМ JS -->
+    <!-- НАДЁЖНЫЙ АВТОНОМНЫЙ ДВИЖОК КОНФЕТТИ -->
     <script>
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
@@ -231,13 +234,11 @@
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 
                 if (isSide) {
-                    // Боковые залпы
                     let angle = sideAngle + (Math.random() - 0.5) * 0.4;
                     let speed = Math.random() * 12 + 10;
                     this.vx = Math.cos(angle) * speed;
                     this.vy = Math.sin(angle) * speed;
                 } else {
-                    // Центральный взрыв вверх
                     this.vx = (Math.random() - 0.5) * 12;
                     this.vy = -(Math.random() * 10 + 10);
                 }
@@ -252,10 +253,10 @@
                 this.x += this.vx;
                 this.y += this.vy;
                 this.vy += this.gravity;
-                this.vx *= 0.98; // Легкое сопротивление воздуха
+                this.vx *= 0.98;
                 this.rotation += this.rotationSpeed;
                 if (this.vy > 2) {
-                    this.opacity -= 0.015; // Медленное растворение при падении
+                    this.opacity -= 0.015;
                 }
             }
 
@@ -265,7 +266,6 @@
                 ctx.rotate(this.rotation * Math.PI / 180);
                 ctx.globalAlpha = Math.max(0, this.opacity);
                 ctx.fillStyle = this.color;
-                // Рисуем прямоугольные конфеттишки
                 ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
                 ctx.restore();
             }
@@ -284,10 +284,10 @@
         }
 
         function fireConfetti() {
-            // 1. Центральный салют под словом успешно
             for (let i = 0; i < 80; i++) {
                 particles.push(new Particle(width / 2, height * 0.35, false));
             }
-            // 2. Левый и правый фонтаны для масштаба стадиона
             setTimeout(() => {
-                for (let i = 0; i < 30; i++) {particles.push(new Particle(0, height * 0.5, true, -Math.PI / 4)); // Стреляет вправо-вверхparticles.push(new Particle(width, height * 0.5, true, -3 * Math.PI / 4)); // Стреляет влево-вверх}}, 150);animate();}// Запуск триумфа ровно на 1300мс в синхроне со словом "успешно!"setTimeout(fireConfetti, 1300);
+                for (let i = 0; i < 30; i++) {
+                    particles.push(new Particle(0, height * 0.5, true, -Math.PI / 4));
+                    particles.push(new Particle(width, height * 0.5, true, -3 * Math.PI / 4));}}, 150);animate();}setTimeout(fireConfetti, 1300);
