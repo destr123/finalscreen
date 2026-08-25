@@ -8,95 +8,173 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         html, body {
-            height: 100%; width: 100%; overflow: hidden;
-            background-color: #FFFFFF;
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #FFFFFF; /* Премиальный чистый белый фон */
         }
 
         body {
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            position: relative; padding: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
         }
 
-        /* 🪐 ТОТ САМЫЙ ПРЕМИАЛЬНЫЙ AI-ОВЕРЛЕЙ (Сюда ставится ролик или Lottie) */
-        .ai-animation-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
-        }
-        .ai-animation-overlay video {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-
-        /* КОНТЕНТ (Всегда четкий, всегда поверх анимации) */
-        .content-layer {
-            position: relative; z-index: 10;
-            display: flex; flex-direction: column; align-items: center; width: 100%;
+        /* 🪐 ЦЕНТРАЛЬНЫЙ БЛОК УСПЕХА */
+        .status-center {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
         }
 
-        .success-header {
-            text-align: center; margin-bottom: 32px;
-            opacity: 0; transform: translateY(10px);
-            /* Проявляется ровно тогда, когда анимация на видео затухает (например, на 2-й секунде) */
-            animation: fadeInContent 0.6s cubic-bezier(0.25, 1, 0.5, 1) 2.0s forwards;
+        /* Премиальная векторная галочка Apple */
+        .apple-checkmark-svg {
+            width: 96px;
+            height: 96px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 8px 20px rgba(20, 200, 86, 0.15));
         }
 
+        /* Анимация прорисовки круга */
+        .circle-path {
+            fill: none;
+            stroke: #14C856;
+            stroke-width: 4;
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            animation: drawCircle 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Анимация прорисовки стрелки */
+        .check-path {
+            fill: none;
+            stroke: #14C856;
+            stroke-width: 5.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: drawCheck 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+        }
+
+        /* Появление текста успешной оплаты */
+        .main-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #111111;
+            letter-spacing: -0.5px;
+            opacity: 0;
+            transform: translateY(12px);
+            animation: titleFadeIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
+        }
+
+        /* 🧾 ЭЛЕГАНТНЫЙ ЧЕК DXS PAY (ВЫКАТЫВАЕТСЯ СНИЗУ ПОЗЖЕ) */
         .premium-receipt-card {
-            background: #FFFFFF; border-radius: 32px; padding: 24px;
-            width: 100%; max-width: 358px; text-align: center;
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.04);
-            opacity: 0; transform: scale(0.96) translateY(20px);
-            animation: fadeInContent 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.3s forwards;
+            background: #FFFFFF;
+            border-radius: 32px;
+            padding: 24px;
+            width: 100%;
+            max-width: 358px;
+            text-align: center;
+            /* Очень мягкая премиальная тень Apple */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+            
+            opacity: 0;
+            transform: scale(0.97) translateY(30px);
+            /* Выплывает строго на 1.3 сек, когда заголовок уже встал на место */
+            animation: receiptRevealEase 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
         }
 
         .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 20px; }
-        .info-container { background: #F8F9FA; border-radius: 18px; padding: 16px; margin-bottom: 24px; }
-        .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px; }
+
+        /* Внутренние строки чека */
+        .info-container {
+            background: #F8F9FA;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.005);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
         .info-row:last-child { margin-bottom: 0; }
         .label { color: #8E8E93; }
         .value { color: #111111; font-weight: 500; }
         .value.price { color: #14C856; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; }
 
+        /* КНОПКА ЗАКРЫТИЯ */
         .btn-done {
-            display: block; width: 100%; background: #14C856; color: #FFFFFF; border: none;
-            padding: 16px; font-size: 16px; font-weight: 600; border-radius: 16px; cursor: pointer;
-            box-shadow: 0 8px 24px rgba(20, 200, 86, 0.15); margin-bottom: 16px;
+            display: block;
+            width: 100%;
+            background: #14C856;
+            color: #FFFFFF;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(20, 200, 86, 0.15);
+            margin-bottom: 16px;
         }
+        .btn-done:active { transform: scale(0.98); filter: brightness(0.9); }
+        
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        @keyframes fadeInContent {
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
+        /* 🎬 МАТЕМАТИКА ТАЙМИНГОВ */
+        @keyframes drawCircle { to { stroke-dashoffset: 0; } }
+        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+        @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes receiptRevealEase { to { opacity: 1; transform: scale(1) translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- 🟢 СЛОЙ ДЛЯ ТОПОВОЙ АНИМАЦИИ (Вставь сюда отрендеренный mp4/webm или скрипт Lottie) -->
-    <div class="ai-animation-overlay">
-        <!-- Пример с видео-шлейфом:
-        <video autoplay muted playsinline src="your-premium-gemini-wave.webm"></video> 
-        -->
+    <!-- 🪐 ЦЕНТР: Четкий фокус на успехе операции -->
+    <div class="status-center">
+        <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
+            <circle class="circle-path" cx="26" cy="26" r="24.5"/>
+            <path class="check-path" d="M16 27.5 L22.5 34 L36.5 19.5"/>
+        </svg>
+        <h1 class="main-title">Оплата прошла успешно!</h1>
     </div>
 
-    <!-- КОНТЕНТНАЯ ЧАСТЬ -->
-    <div class="content-layer">
-        
-        <div class="success-header">
-            <!-- Сюда можно также вставить красивую Lottie-галочку -->
-            <h1 style="font-size: 26px; font-weight: 700; color: #111111;">Оплата прошла успешно!</h1>
-        </div>
+    <!-- 🧾 НИЗ: Спокойное появление чека -->
+    <div class="premium-receipt-card">
+        <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
 
-        <div class="premium-receipt-card">
-            <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
-            <div class="info-container">
-                <div class="info-row"><span class="label">Назначение</span><span class="value">Оплата услуги</span></div>
-                <div class="info-row"><span class="label">Сумма</span><span class="value price">1.00 ₽</span></div>
-                <div class="info-row"><span class="label">Номер платежа</span><span class="value">#482910</span></div>
+        <div class="info-container">
+            <div class="info-row">
+                <span class="label">Назначение</span>
+                <span class="value">Оплата услуги</span>
             </div>
-            <button class="btn-done">Закрыть страницу</button>
-            <div class="brand-footer">Платёжная система <span>DxS Pay</span></div>
+            <div class="info-row">
+                <span class="label">Сумма</span>
+                <span class="value price">1.00 ₽</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Номер платежа</span>
+                <span class="value">#482910</span>
+            </div>
         </div>
 
+        <button class="btn-done">Закрыть страницу</button>
+        
+        <div class="brand-footer">
+            Платёжная система <span>DxS Pay</span>
+        </div>
     </div>
 
 </body>
