@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DxS Pay | Успешная оплата</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #F8F9FA;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #111111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 🟢 ЭФФЕКТ ВЖУХА: ЛАЗЕРНОЕ ЗАПОЛНЕНИЕ РАМКИ ПО ПЕРИМЕТРУ */
+        .screen-border {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 3px solid #14C856;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: inset 0 0 15px rgba(20, 200, 86, 0.2);
+            
+            /* Магия лазера: сначала рамка скрыта (длина линии 0) */
+            stroke-dasharray: 5000;
+            stroke-dashoffset: 5000;
+            
+            /* Анимация прорисовки + переход в мягкое мерцание */
+            animation: 
+                borderDraw 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                geminiPulse 2.5s infinite ease-in-out 0.8s;
+        }
+
+        /* ВСПЫШКА НА СТАРТЕ */
+        .flash-effect {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(20, 200, 86, 0.4) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0;
+            animation: flashBurst 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        /* 🔋 ЧИСТЫЙ ЗЕЛЕНЫЙ AI-ГРАДИЕНТ НА ЗАДНЕМ ФОНЕ */
+        .ai-glow {
+            position: absolute;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(20, 200, 86, 0.08) 0%, rgba(255,255,255,0) 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(40px);
+            z-index: 1;
+            opacity: 0;
+            animation: fadeInElement 0.5s ease-out 0.6s forwards;
+        }
+
+        /* 💳 СТЕКЛЯННАЯ КАРТОЧКА С ЧЕКОМ (ПОЯВЛЯЕТСЯ ПОСЛЕ ВЖУХА) */
+        .success-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 32px;
+            padding: 40px 24px 32px 24px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            
+            /* Скрыта на старте, вылетает через 0.4 сек */
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+        }
+
+        /* Анимированная галочка ИИ */
+        .icon-wrapper {
+            position: relative;
+            width: 76px; height: 76px;
+            margin: 0 auto 24px auto;
+        }
+        .main-icon {
+            width: 100%; height: 100%;
+            background: #14C856;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 38px;
+            box-shadow: 0 12px 30px rgba(20, 200, 86, 0.35);
+            opacity: 0;
+            animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+        }
+
+        h1 { font-size: 23px; font-weight: 700; color: #1C1C1E; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 32px; }
+
+        /* БЛОК ЧЕКА */
+        .info-box {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 20px;
+            padding: 18px 20px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+        .info-row:last-child { margin-bottom: 0; }
+        .label { color: #8E8E93; }
+        .value { color: #1C1C1E; font-weight: 500; }
+        .value.price { color: #14C856; font-weight: 700; font-size: 18px; }
+
+        /* КНОПКА */
+        .btn-close {
+            display: block;
+            width: 100%;
+            background: #14C856;
+            color: #FFFFFF;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(20, 200, 86, 0.2);
+            margin-bottom: 24px;
+        }
+        .btn-close:active {
+            transform: scale(0.97);
+            background: #11A647;
+        }
+
+        .brand-footer { font-size: 12px; color: #C7C7CC; }
+        .brand-footer span { color: #14C856; font-weight: 600; }
+
+        /* 🎬 ТЕ САМЫЕ КИНЕМАТОГРАФИЧНЫЕ АНИМАЦИИ */
+        
+        /* 1. Эффект прорисовки рамки (Вжух!) */
+        @style {
+            /* Для симуляции векторного контура через обычный div используем clip-path */
+        }
+        @keyframes borderDraw {
+            0% { clip-path: inset(0 100% 100% 0); }
+            25% { clip-path: inset(0 0 100% 0); }
+            50% { clip-path: inset(0 0 0 0); }
+            100% { clip-path: inset(0 0 0 0); opacity: 1; }
+        }
+        /* В реальном CSS для идеального эффекта углов используется простая магия анимации масштаба границ: */
+        .screen-border {
+            animation: borderEnter 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) forwards, geminiPulse 2s infinite ease-in-out 0.5s;
+            transform: scale(1.05); opacity: 0;
+        }
+        @keyframes borderEnter {
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* 2. Стартовая вспышка из центра */
+        @keyframes flashBurst {
+            0% { opacity: 0; transform: scale(0.3); }
+            30% { opacity: 1; }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+
+        /* 3. Появление карточки с чеком */
+        @keyframes cardAppear {
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* 4. Вылет иконки */
+        @keyframes iconPop {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* 5. Постоянное ИИ-дыхание рамки после вжуха */
+        @keyframes geminiPulse {
+            0%, 100% { box-shadow: inset 0 0 10px rgba(20, 200, 86, 0.2), 0 0 10px rgba(20, 200, 86, 0.2); border-color: rgba(20, 200, 86, 0.8); }
+            50% { box-shadow: inset 0 0 25px rgba(20, 200, 86, 0.4), 0 0 20px rgba(20, 200, 86, 0.3); border-color: rgba(20, 200, 86, 1); }
+        }
+        
+        @keyframes fadeInElement { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Стартовый импульс и рамка -->
+    <div class="flash-effect"></div>
+    <div class="screen-border"></div>
+    <div class="ai-glow"></div>
+
+    <!-- Основной контент -->
+    <div class="success-card">
+        <div class="icon-wrapper">
+            <div class="main-icon">✓</div>
+        </div>
+        
+        <h1>Оплата прошла успешно!</h1>
+        <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
+
+        <div class="info-box">
+            <div class="info-row">
+                <span class="label">Назначение</span>
+                <span class="value">Оплата услуги</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Сумма</span>
+                <span class="value price">1.00 ₽</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Номер платежа</span>
+                <span class="value">#482910</span>
+            </div>
+        </div>
+
+        <button class="btn-close">Закрыть страницу</button>
+        
+        <div class="brand-footer">
+            Платёжная система <span>DxS Pay</span>
+        </div>
+    </div>
+
+</body>
+</html>
