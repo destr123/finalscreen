@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Corrected Premium Success</title>
+    <title>DxS Pay | Ultimate Aurora Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -11,7 +11,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF;
+            background-color: #FFFFFF; /* Чистый премиальный белый */
         }
 
         body {
@@ -24,69 +24,63 @@
             padding: 24px;
         }
 
-        /* 🔮 1. ЗАДНИЙ СЛОЙ: СИММЕТРИЧНАЯ АУРА СТРОГО ПОД КОНТЕНТОМ (z-index: 1) */
-        .aura-system {
+        /* 🔮 1. ПОЛНОЭКРАННЫЙ ЖИДКИЙ ГРАДИЕНТ С ВЫРЕЗОМ В ЦЕНТРЕ */
+        .aura-screen-wrapper {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 1; /* Опустили на самый нижний слой, под текст и галочку */
+            z-index: 1;
             overflow: hidden;
             opacity: 0;
+            
+            /* 💥 МАГИЯ APPLE/GEMINI: Вырезаем центр, чтобы градиент не касался галочки и текста */
+            -webkit-mask-image: radial-gradient(circle 160px at center, transparent 30%, black 100%);
+            mask-image: radial-gradient(circle 160px at center, transparent 30%, black 100%);
+            
+            /* Накат за 1.8с, плавное мигание и полное исчезновение */
             animation: 
-                auraWaveIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+                auraReveal 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards,
                 auraPulseAndFade 1.0s cubic-bezier(0.25, 1, 0.5, 1) 1.8s forwards;
         }
 
-        /* Левое облако (аккуратный заход с левого края) */
-        .aura-left {
+        /* Многослойная жидкая плазма (переливается со всех сторон) */
+        .plasma-layer {
             position: absolute;
-            top: 50%; 
-            left: -50%; /* Сместили глубже к краю, чтобы не заливало центр */
-            width: 80vh; height: 80vh;
-            transform: translateY(-50%);
-            background: radial-gradient(circle at center, #14C856 0%, #A3F7B5 30%, rgba(255,255,255,0) 65%);
-            filter: blur(60px);
-            animation: fluidBreatheLeft 5s infinite ease-in-out;
+            top: -20%; left: -20%; width: 140%; height: 140%;
+            /* Градиент заходит со всех краев экрана */
+            background: 
+                radial-gradient(circle at 10% 20%, #14C856 0%, rgba(255,255,255,0) 50%),
+                radial-gradient(circle at 90% 10%, #A3F7B5 0%, rgba(255,255,255,0) 50%),
+                radial-gradient(circle at 80% 90%, #0ED95A 0%, rgba(255,255,255,0) 50%),
+                radial-gradient(circle at 20% 80%, #14C856 0%, rgba(255,255,255,0) 50%);
+            filter: blur(50px);
+            animation: plasmaWave 6s linear infinite;
         }
 
-        /* Правое облако (аккуратный заход с правого края) */
-        .aura-right {
-            position: absolute;
-            top: 50%; 
-            right: -50%; /* Абсолютно зеркально левому */
-            width: 80vh; height: 80vh;
-            transform: translateY(-50%);
-            background: radial-gradient(circle at center, #14C856 0%, #A3F7B5 30%, rgba(255,255,255,0) 65%);
-            filter: blur(60px);
-            animation: fluidBreatheRight 5s infinite ease-in-out;
+        /* 🎬 АНИМАЦИЯ: ПЛАВНЫЕ ВОЛНИСТЫЕ ПЕРЕЛИВЫ НЕОНА */
+        @keyframes plasmaWave {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.15); }
+            100% { transform: rotate(360deg) scale(1); }
         }
 
-        @keyframes auraWaveIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes fluidBreatheLeft {
-            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); opacity: 0.8; }
-            50% { transform: translateY(-48%) scale(1.08) rotate(8deg); opacity: 1; }
-        }
-        @keyframes fluidBreatheRight {
-            0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); opacity: 0.8; }
-            50% { transform: translateY(-52%) scale(1.08) rotate(-8deg); opacity: 1; }
+        @keyframes auraReveal {
+            from { opacity: 0; transform: scale(1.05); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         @keyframes auraPulseAndFade {
-            0% { filter: brightness(1); opacity: 1; }
-            25% { filter: brightness(1.2); opacity: 0.4; }
-            50% { filter: brightness(1.25); opacity: 1; }
+            0% { filter: brightness(1) blur(50px); opacity: 1; }
+            25% { filter: brightness(1.25) blur(45px); opacity: 0.4; }
+            50% { filter: brightness(1.3) blur(50px); opacity: 1; }
             100% { opacity: 0; visibility: hidden; }
         }
 
 
-        /* 🪐 2. ПЕРЕДНИЙ СЛОЙ: ЕДИНОЕ ИИ-ЯДРО ПОВЕРХ ГРАДИЕНТА (z-index: 100) */
+        /* 🪐 2. ЕДИНОЕ ИИ-ЯДРО (СТРОГО В ЧИСТОЙ ЗОНЕ МАСКИ) */
         .core-success-block {
             text-align: center;
-            z-index: 100; /* Всегда поверх градиента */
+            z-index: 100;
             pointer-events: none;
             display: flex;
             flex-direction: column;
@@ -99,7 +93,7 @@
         .apple-checkmark-svg {
             width: 100px; height: 100px;
             margin-bottom: 24px;
-            filter: drop-shadow(0 8px 16px rgba(20, 200, 86, 0.15));
+            filter: drop-shadow(0 10px 20px rgba(20, 200, 86, 0.2));
         }
 
         .circle-path {
@@ -137,7 +131,7 @@
         @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
 
 
-        /* 🧾 3. ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (z-index: 10) */
+        /* 🧾 3. ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫЕЗЖАЕТ ИЗ ФОНА В КОНЦЕ) */
         .premium-receipt-card {
             background: #FFFFFF;
             border-radius: 32px;
@@ -152,6 +146,7 @@
             
             opacity: 0;
             transform: scale(0.96) translateY(35px);
+            /* Появляется на 2.6 сек, когда все внешние переливы угасли */
             animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.6s forwards;
         }
 
@@ -203,13 +198,12 @@
 </head>
 <body>
 
-    <!-- 🔮 СИММЕТРИЧНАЯ АУРА ИИ (Теперь строго НАД ФОНОМ, под элементами) -->
-    <div class="aura-system">
-        <div class="aura-left"></div>
-        <div class="aura-right"></div>
+    <!-- 🔮 ГРАДИЕНТНАЯ АУРА С АВТОМАТИЧЕСКИМ ВЫРЕЗОМ ПО ЦЕНТРУ -->
+    <div class="aura-screen-wrapper">
+        <div class="plasma-layer"></div>
     </div>
 
-    <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО (Поверх градиента) -->
+    <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО (В ЧИСТОЙ ЗОНЕ БЕЗ ГРАДИЕНТА) -->
     <div class="core-success-block">
         <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
             <circle class="circle-path" cx="26" cy="26" r="24.5"/>
