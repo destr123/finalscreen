@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Apple Intelligence Success</title>
+    <title>DxS Pay | True Siri Border Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -11,7 +11,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF; /* Чистый белый фон Apple */
+            background-color: #FFFFFF; /* Элитный белый фон */
         }
 
         body {
@@ -24,16 +24,59 @@
             padding: 24px;
         }
 
-        /* 🔮 СКРЫТЫЙ ХОЛСТ ДЛЯ ЖИДКОЙ АНИМАЦИИ SIRI */
-        #siri-canvas {
+        /* 🟢 ТО САМОЕ ВОЛНИСТОЕ НЕОНОВОЕ СВЕЧЕНИЕ СТРОГО ПО ГРАНИЦАМ */
+        .siri-border-container {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: env(safe-area-inset-top, 0px);
+            left: env(safe-area-inset-left, 0px);
+            right: env(safe-area-inset-right, 0px);
+            bottom: env(safe-area-inset-bottom, 0px);
+            width: calc(100% - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+            height: calc(100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
             pointer-events: none;
-            z-index: 1;
+            z-index: 10;
         }
 
-        /* 🪐 ЕДИНОЕ ИИ-ЯДРО (ГАЛОЧКА + ТЕКСТ) */
+        .siri-wave-path {
+            fill: none;
+            stroke: url(#siri-liquid-gradient);
+            stroke-width: 8px; /* Сочная широкая неоновая нить */
+            stroke-linecap: round;
+            
+            /* Сложный ИИ-эффект: превращает линию в объёмное, глубокое жидкое стекло */
+            filter: url(#siri-neon-glow);
+            
+            /* Настройка старта движения из точек "1" */
+            stroke-dasharray: 4000;
+            stroke-dashoffset: 4000;
+            
+            /* Ровно 1.6 секунды на растекание волн, затем пульсация и затухание */
+            animation: 
+                liquidFlow 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+                siriBreatheAndFade 1.0s cubic-bezier(0.25, 1, 0.5, 1) 1.6s forwards;
+        }
+
+        /* 🎬 АНИМАЦИЯ: ГУСТОЕ ТЕЧЕНИЕ ИЗ ТОЧЕК "1" С БОКОВ ЭКРАНА */
+        @keyframes liquidFlow {
+            0% {
+                stroke-dasharray: 0 4000;
+                stroke-dashoffset: -1000; /* Идеальное смещение в центральные точки 1 */
+            }
+            100% {
+                stroke-dasharray: 4000 0;
+                stroke-dashoffset: 0; /* Рамки полностью сомкнулись */
+            }
+        }
+
+        /* 🎬 АНИМАЦИЯ: ДВА МЯГКИХ СВЕТОВЫХ ВЗДОХА И УГАСАНИЕ РАМКИ */
+        @keyframes siriBreatheAndFade {
+            0% { opacity: 1; transform: scale(1); }
+            30% { opacity: 0.3; transform: scale(0.995); }
+            60% { opacity: 1; transform: scale(1.002); }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* 🪐 2. ЕДИНОЕ ИИ-ЯДРО (ГАЛОЧКА + ТЕКСТ) */
         .core-success-block {
             text-align: center;
             z-index: 100;
@@ -52,15 +95,17 @@
             filter: drop-shadow(0 10px 20px rgba(20, 200, 86, 0.15));
         }
 
+        /* Круг рисуется в идеальном синхроне с течением рамок */
         .circle-path {
             fill: none;
             stroke: #14C856;
             stroke-width: 4.5;
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
-            animation: syncCircle 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: syncCircle 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
+        /* Стрелка вылетает ровно к моменту смыкания */
         .check-path {
             fill: none;
             stroke: #14C856;
@@ -69,7 +114,7 @@
             stroke-linejoin: round;
             stroke-dasharray: 60;
             stroke-dashoffset: 60;
-            animation: syncCheck 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.7s forwards;
+            animation: syncCheck 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
         }
 
         @keyframes syncCircle { to { stroke-dashoffset: 0; } }
@@ -82,11 +127,12 @@
             letter-spacing: -0.5px;
             opacity: 0;
             transform: translateY(12px);
-            animation: titleFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.2s forwards;
+            animation: titleFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.3s forwards;
         }
         @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY */
+
+        /* 🧾 3. ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫЕЗЖАЕТ ИЗ ФОНА В КОНЦЕ) */
         .premium-receipt-card {
             background: #FFFFFF;
             border-radius: 32px;
@@ -94,15 +140,15 @@
             width: 100%;
             max-width: 358px;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.04);
             z-index: 10;
             position: absolute;
             bottom: 6%;
             
             opacity: 0;
             transform: scale(0.96) translateY(35px);
-            /* Выкатывается на 2.2 секунде, когда Siri угасает */
-            animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
+            /* Проявляется на 2.4 секунде, когда внешние границы полностью погасли */
+            animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.4s forwards;
         }
 
         .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 20px; }
@@ -153,8 +199,41 @@
 </head>
 <body>
 
-    <!-- Холст для жидкой ИИ-анимации по границам экрана -->
-    <canvas id="siri-canvas"></canvas>
+    <!-- 🪐 СЛОЖНАЯ ИИ-МАТРИЦА СВЕТА И ВОЛНИСТЫХ ГРАНИЦ -->
+    <svg class="siri-border-container" viewBox="0 0 400 800" preserveAspectRatio="none">
+        <defs>
+            <!-- Тот самый переливающийся градиент Siri (Изумруд + Живая Мята) -->
+            <linearGradient id="siri-liquid-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#14C856" />
+                <stop offset="30%" stop-color="#A3F7B5" />
+                <stop offset="70%" stop-color="#0ED95A" />
+                <stop offset="100%" stop-color="#14C856" />
+            </linearGradient>
+
+            <!-- Фильтр глубокого объемного свечения на 30-40px внутрь и наружу экрана -->
+            <filter id="siri-neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="18" result="blur1" />
+                <feGaussianBlur stdDeviation="6" result="blur2" />
+                <feMerge>
+                    <feMergeNode in="blur1" />
+                    <feMergeNode in="blur2" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+
+        <!-- 🌊 Путь прописан через кривые Безье (Q): линии идут строго по границам, но плавно изгибаются волнами -->
+        <path class="siri-wave-path" d="
+            M 400 400 
+            Q 394 200 400 0 
+            L 0 0 
+            Q 6 200 0 400 
+            Q 6 600 0 800 
+            L 400 800 
+            Q 394 600 400 400 
+            Z" 
+        />
+    </svg>
 
     <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО -->
     <div class="core-success-block">
@@ -184,91 +263,12 @@
             </div>
         </div>
 
-        <button class="btn-done">Закрыть страницу</button>
+        <button class="btn-close btn-done">Закрыть страницу</button>
         
         <div class="brand-footer">
             Платёжная система <span>DxS Pay</span>
         </div>
     </div>
 
-    <!-- 🚀 СКРИПТ ЖИДКОЙ АНИМАЦИИ SIRI (APPLE INTELLIGENCE STYLE) -->
-    <script>
-        const canvas = document.getElementById('siri-canvas');
-        const ctx = canvas.getContext('2d');
-
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
-
-        let startTime = Date.now();
-        let globalOpacity = 1;
-
-        function drawSiriAura() {
-            let elapsed = (Date.now() - startTime) / 1000;
-            ctx.clearRect(0, 0, width, height);
-
-            // 1. Управление логикой исчезновения рамок после завершения (через 1.5 сек)
-            if (elapsed > 1.5) {
-                // Плавное затухание и два мягких ИИ-вздоха (пульсации)
-                let fadePhase = elapsed - 1.5;
-                let pulse = 1 + Math.sin(fadePhase * Math.PI * 2) * 0.15;
-                globalOpacity = Math.max(0, 1 - fadePhase * 1.2);
-                ctx.globalAlpha = globalOpacity;
-            }
-
-            if (globalOpacity <= 0) return; // Полностью отключаем рендер, когда погасло
-
-            // 2. Рассчитываем длину заполнения «воды» из точек 1 (середина боков)
-            let progress = Math.min(1, elapsed / 1.5); 
-            let currentGlowSize = 35 + Math.sin(elapsed * 5) * 8; // Плавное волнистое "дыхание" краев
-
-            ctx.save();
-            
-            // Настраиваем размытие для глубокого Siri-эффекта
-            ctx.filter = `blur(${currentGlowSize}px)`;
-
-            // Создаем многослойные жидкие переливы градиента по периметру
-            let gradientLeft = ctx.createRadialGradient(0, height / 2, 10, 0, height / 2, width * 0.45 * progress);
-            gradientLeft.addColorStop(0, '#14C856');
-            gradientLeft.addColorStop(0.3, '#A3F7B5'); // Мятный шлейф
-            gradientLeft.addColorStop(1, 'rgba(255,255,255,0)');
-
-            let gradientRight = ctx.createRadialGradient(width, height / 2, 10, width, height / 2, width * 0.45 * progress);
-            gradientRight.addColorStop(0, '#0ED95A');
-            gradientRight.addColorStop(0.4, '#14C856');
-            gradientRight.addColorStop(1, 'rgba(255,255,255,0)');
-
-            // Отрисовка жидких полей
-            ctx.fillStyle = gradientLeft;
-            ctx.fillRect(0, 0, width, height);
-            
-            ctx.fillStyle = gradientRight;
-            ctx.fillRect(0, 0, width, height);
-
-            ctx.restore();
-
-            // Создаем внутреннюю защитную маску, чтобы свет не затекал на саму галочку
-            ctx.save();
-            ctx.globalCompositeOperation = 'destination-out';
-            let maskGrad = ctx.createRadialGradient(width/2, height*0.32, 10, width/2, height*0.32, 140);
-            maskGrad.addColorStop(0, 'rgba(0,0,0,1)');
-            maskGrad.addColorStop(0.6, 'rgba(0,0,0,0.8)');
-            maskGrad.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = maskGrad;
-            ctx.beginPath();
-            ctx.arc(width/2, height*0.32, 150, 0, Math.PI*2);
-            ctx.fill();
-            ctx.restore();
-
-            requestAnimationFrame(drawSiriAura);
-        }
-
-        // Запуск волны
-        requestAnimationFrame(drawSiriAura);
-    </script>
 </body>
 </html>
