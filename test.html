@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Ultimate Success</title>
+    <title>DxS Pay | Exploding Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -17,15 +17,14 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             position: relative;
             padding: 24px;
         }
 
-        /* 🪐 ЭТАП 1: ЖИВАЯ ОБЪЕМНАЯ ГРАДИЕНТНАЯ РАМКА GEMINI */
-        .wave-border-container {
+        /* 🟢 СЛОЖНАЯ СИСТЕМА СИНХРОННОГО РАСКРЫТИЯ РАМОК ИЗ ЦЕНТРА */
+        .border-system {
             position: fixed;
             top: env(safe-area-inset-top, 0px);
             left: env(safe-area-inset-left, 0px);
@@ -37,140 +36,118 @@
             z-index: 9999;
         }
 
-        .gradient-rect {
+        .premium-laser {
             width: 100%;
             height: 100%;
             fill: none;
-            stroke-width: 5px; /* Утолщенная мягкая линия */
+            stroke: #14C856;
+            stroke-width: 4px;
             stroke-linecap: round;
+            filter: drop-shadow(0 0 12px rgba(20, 200, 86, 0.6)) drop-shadow(0 0 4px rgba(20, 200, 86, 0.9));
             
-            /* Сложное размытие для эффекта объемной жидкой волны */
-            filter: drop-shadow(0 0 12px rgba(20, 200, 86, 0.5)) drop-shadow(0 0 4px rgba(20, 200, 86, 0.8));
+            /* Настройка старта анимации строго из центра боковых граней */
+            stroke-dasharray: 4000;
+            stroke-dashoffset: 4000;
             
-            /* СИНХРОНИЗАЦИЯ: Ровно 1.2 секунды на проявление, затем бесконечный перелив градиента */
+            /* 1.4 секунды на расползание по границам, затем мигание и затухание */
             animation: 
-                syncDraw 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-                waveLiquid 3s linear infinite 1.2s;
+                expandBorders 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards,
+                blinkAndFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.4s forwards;
         }
 
-        /* 🎬 СИНХРОННЫЙ НАЛИВ РАМКИ (ИДЕТ ОДНОВРЕМЕННО С ГАЛОЧКОЙ) */
-        @keyframes syncDraw {
-            from {
-                stroke-dasharray: 4000;
-                stroke-dashoffset: 4000;
+        /* 🎬 АНИМАЦИЯ РАСПОЛЗАНИЯ ЛИНИЙ ИЗ СЕРЕДИНЫ БОКОВ ВВЕРХ И ВНИЗ */
+        @keyframes expandBorders {
+            0% {
+                stroke-dasharray: 0 4000;
+                stroke-dashoffset: 2000; /* Старт в центральной координате */
             }
-            to {
-                stroke-dasharray: 4000;
-                stroke-dashoffset: 0;
-            }
-        }
-
-        /* 🎬 ПОСТОЯННЫЙ ПРЕМИАЛЬНЫЙ ПЕРЕЛИВ ЖИДКОЙ ВОЛНЫ */
-        @keyframes waveLiquid {
-            from {
-                stroke-dasharray: 200, 150;
-                stroke-dashoffset: 0;
-            }
-            to {
-                stroke-dasharray: 200, 150;
-                stroke-dashoffset: -350; /* Градиентные волны премиально текут по кругу */
+            100% {
+                stroke-dasharray: 4000 0;
+                stroke-dashoffset: 0; /* Полное заполнение периметра */
             }
         }
 
-        /* Задний мягкий ИИ-фон */
-        .ambient-glow {
+        /* 🎬 МИГАНИЕ И ПОЛНОЕ УГАСАНИЕ РАМКИ И ГАЛОЧКИ */
+        @keyframes blinkAndFade {
+            0% { opacity: 1; filter: drop-shadow(0 0 15px rgba(20, 200, 86, 0.8)); }
+            25% { opacity: 0.2; }
+            50% { opacity: 1; filter: drop-shadow(0 0 25px rgba(20, 200, 86, 1)); }
+            75% { opacity: 0.4; }
+            100% { opacity: 0; display: none; filter: drop-shadow(0 0 0px rgba(0,0,0,0)); }
+        }
+
+        /* 🌌 АНИМАЦИЯ ГАЛОЧКИ В ПОЛНОМ СИНХРОНЕ С РАМКОЙ */
+        .animation-core {
             position: absolute;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(20, 200, 86, 0.08) 0%, rgba(244,246,248,0) 70%);
-            top: 45%; left: 50%;
-            transform: translate(-50%, -50%);
-            filter: blur(60px);
-            z-index: 1;
-        }
-
-        /* 🪐 ЦЕНТРАЛЬНЫЙ БЛОК (ИДЕАЛЬНЫЙ СИНХРОН С РАМКОЙ) */
-        .status-center {
             text-align: center;
-            z-index: 10;
-            margin-bottom: 24px;
+            z-index: 100;
+            pointer-events: none;
             display: flex;
             flex-direction: column;
             align-items: center;
+            /* Вся центральная ИИ-вспышка гаснет вместе с рамками */
+            animation: blinkAndFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.4s forwards;
         }
 
         .apple-checkmark-svg {
-            width: 92px; height: 92px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 12px 24px rgba(20, 200, 86, 0.2));
+            width: 96px; height: 96px;
+            filter: drop-shadow(0 8px 20px rgba(20, 200, 86, 0.3));
         }
 
-        /* СИНХРОНИЗИРОВАННЫЙ КРУГ ГАЛОЧКИ */
         .circle-path {
             fill: none;
-            stroke: url(#wave-gradient);
+            stroke: #14C856;
             stroke-width: 4;
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
-            /* Заканчивает анимацию ровно на 1.2s */
-            animation: drawCircleSync 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            /* Рисуется ровно 1.4 секунды */
+            animation: syncCircle 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        /* СИНХРОНИЗИРОВАННАЯ СТРЕЛКА ГАЛОЧКИ */
         .check-path {
             fill: none;
-            stroke: url(#wave-gradient);
+            stroke: #14C856;
             stroke-width: 5;
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-dasharray: 50;
             stroke-dashoffset: 50;
-            /* Рассчитано так, чтобы дорисоваться ровно к 1.2s */
-            animation: drawCheckSync 0.7s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+            /* Идеально завершается к отметке 1.4 секунды */
+            animation: syncCheck 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.6s forwards;
         }
 
-        .main-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: #111111;
-            letter-spacing: -0.5px;
-            opacity: 0;
-            transform: translateY(15px);
-            /* Мягко проявляется ровно в момент завершения общего триумфа */
-            animation: titleFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.0s forwards;
-        }
+        @keyframes syncCircle { to { stroke-dashoffset: 0; } }
+        @keyframes syncCheck { to { stroke-dashoffset: 0; } }
 
-        @keyframes drawCircleSync { to { stroke-dashoffset: 0; } }
-        @keyframes drawCheckSync { to { stroke-dashoffset: 0; } }
-        @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
-
-        /* 💳 ДОРОГОЙ МАТОВЫЙ ЧЕК (Появляется элегантно после синхрона) */
+        /* 🧾 ЭЛЕГАНТНОЕ ПОЯВЛЕНИЕ ЧЕКА ПОСЛЕ ТОГО, КАК ВСЁ ПОГАСЛО */
         .premium-receipt-card {
-            background: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 30px;
-            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 32px;
+            padding: 36px 24px;
             width: 100%;
             max-width: 358px;
             text-align: center;
-            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
             z-index: 10;
             
             opacity: 0;
-            transform: translateY(30px) scale(0.98);
-            /* Выкатывается сразу после финала синхронной анимации */
-            animation: receiptReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 1.3s forwards;
+            transform: scale(0.96) translateY(20px);
+            /* Выплывает строго на 2.0 секунде, когда световое шоу полностью завершено */
+            animation: contentReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.0s forwards;
         }
 
-        .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 20px; }
+        h1 { font-size: 24px; font-weight: 700; color: #111111; margin-bottom: 8px; letter-spacing: -0.4px; }
+        .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 24px; }
 
         .info-container {
-            background: rgba(255, 255, 255, 0.45);
-            border-radius: 18px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 16px 18px;
             margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.01);
         }
         .info-row {
             display: flex;
@@ -182,12 +159,12 @@
         .info-row:last-child { margin-bottom: 0; }
         .label { color: #8E8E93; }
         .value { color: #111111; font-weight: 500; }
-        .value.price { color: #14C856; font-weight: 700; font-size: 22px; letter-spacing: -0.3px; }
+        .value.price { color: #14C856; font-weight: 700; font-size: 22px; }
 
         .btn-done {
             display: block;
             width: 100%;
-            background: linear-gradient(135deg, #14C856 0%, #0ED95A 100%);
+            background: #14C856;
             color: #FFFFFF;
             border: none;
             padding: 16px;
@@ -195,51 +172,37 @@
             font-weight: 600;
             border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             box-shadow: 0 8px 24px rgba(20, 200, 86, 0.2);
             margin-bottom: 16px;
         }
-        .btn-done:active { transform: scale(0.98); filter: brightness(0.95); }
-
+        .btn-done:active { transform: scale(0.98); filter: brightness(0.9); }
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        @keyframes receiptReveal {
-            to { opacity: 1; transform: translateY(0) scale(1); }
+        @keyframes contentReveal {
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Градиентная палитра для лазера и галочки -->
-    <svg width="0" height="0">
-        <defs>
-            <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#14C856" />
-                <stop offset="50%" stop-color="#A3F7B5" /> <!-- Мятный блик ИИ -->
-                <stop offset="100%" stop-color="#0ED95A" />
-            </linearGradient>
-        </defs>
+    <!-- 🟢 SVG-система рамок с раскрытием из центральной оси -->
+    <svg class="border-system">
+        <rect class="premium-laser" x="0" y="0" width="100%" height="100%" />
     </svg>
 
-    <!-- 🟢 Новая премиальная SVG рамка с эффектом мягкой волны -->
-    <svg class="wave-border-container">
-        <rect class="gradient-rect" x="0" y="0" width="100%" height="100%" stroke="url(#wave-gradient)" />
-    </svg>
-    
-    <div class="ambient-glow"></div>
-
-    <!-- 🌌 ЦЕНТРАЛЬНЫЙ БЛОК (СИНХРОННЫЙ ВЗЛЕТ) -->
-    <div class="status-center">
+    <!-- 🪐 ЯДРО АНИМАЦИИ (Галочка) -->
+    <div class="animation-core">
         <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
             <circle class="circle-path" cx="26" cy="26" r="24.5"/>
             <path class="check-path" d="M16 27.5 L22.5 34 L36.5 19.5"/>
         </svg>
-        <h1 class="main-title">Оплата прошла успешно!</h1>
     </div>
 
-    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК -->
+    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (Появляется на чистом экране в конце) -->
     <div class="premium-receipt-card">
+        <h1>Оплата прошла успешно!</h1>
         <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
 
         <div class="info-container">
