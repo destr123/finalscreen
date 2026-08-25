@@ -3,239 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Ultimate Aurora Success</title>
+    <title>DxS Pay | Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background-color: #FFFFFF; /* Чистый премиальный белый */
+            height: 100%; width: 100%; overflow: hidden;
+            background-color: #FFFFFF;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 24px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative; padding: 24px;
         }
 
-        /* 🔮 1. ПОЛНОЭКРАННЫЙ ЖИДКИЙ ГРАДИЕНТ С ВЫРЕЗОМ В ЦЕНТРЕ */
-        .aura-screen-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-            opacity: 0;
-            
-            /* 💥 МАГИЯ APPLE/GEMINI: Вырезаем центр, чтобы градиент не касался галочки и текста */
-            -webkit-mask-image: radial-gradient(circle 160px at center, transparent 30%, black 100%);
-            mask-image: radial-gradient(circle 160px at center, transparent 30%, black 100%);
-            
-            /* Накат за 1.8с, плавное мигание и полное исчезновение */
-            animation: 
-                auraReveal 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-                auraPulseAndFade 1.0s cubic-bezier(0.25, 1, 0.5, 1) 1.8s forwards;
+        /* 🪐 ТОТ САМЫЙ ПРЕМИАЛЬНЫЙ AI-ОВЕРЛЕЙ (Сюда ставится ролик или Lottie) */
+        .ai-animation-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .ai-animation-overlay video {
+            width: 100%; height: 100%; object-fit: cover;
         }
 
-        /* Многослойная жидкая плазма (переливается со всех сторон) */
-        .plasma-layer {
-            position: absolute;
-            top: -20%; left: -20%; width: 140%; height: 140%;
-            /* Градиент заходит со всех краев экрана */
-            background: 
-                radial-gradient(circle at 10% 20%, #14C856 0%, rgba(255,255,255,0) 50%),
-                radial-gradient(circle at 90% 10%, #A3F7B5 0%, rgba(255,255,255,0) 50%),
-                radial-gradient(circle at 80% 90%, #0ED95A 0%, rgba(255,255,255,0) 50%),
-                radial-gradient(circle at 20% 80%, #14C856 0%, rgba(255,255,255,0) 50%);
-            filter: blur(50px);
-            animation: plasmaWave 6s linear infinite;
+        /* КОНТЕНТ (Всегда четкий, всегда поверх анимации) */
+        .content-layer {
+            position: relative; z-index: 10;
+            display: flex; flex-direction: column; align-items: center; width: 100%;
         }
 
-        /* 🎬 АНИМАЦИЯ: ПЛАВНЫЕ ВОЛНИСТЫЕ ПЕРЕЛИВЫ НЕОНА */
-        @keyframes plasmaWave {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.15); }
-            100% { transform: rotate(360deg) scale(1); }
+        .success-header {
+            text-align: center; margin-bottom: 32px;
+            opacity: 0; transform: translateY(10px);
+            /* Проявляется ровно тогда, когда анимация на видео затухает (например, на 2-й секунде) */
+            animation: fadeInContent 0.6s cubic-bezier(0.25, 1, 0.5, 1) 2.0s forwards;
         }
 
-        @keyframes auraReveal {
-            from { opacity: 0; transform: scale(1.05); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes auraPulseAndFade {
-            0% { filter: brightness(1) blur(50px); opacity: 1; }
-            25% { filter: brightness(1.25) blur(45px); opacity: 0.4; }
-            50% { filter: brightness(1.3) blur(50px); opacity: 1; }
-            100% { opacity: 0; visibility: hidden; }
-        }
-
-
-        /* 🪐 2. ЕДИНОЕ ИИ-ЯДРО (СТРОГО В ЧИСТОЙ ЗОНЕ МАСКИ) */
-        .core-success-block {
-            text-align: center;
-            z-index: 100;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: absolute;
-            top: 32%;
-            transform: translateY(-50%);
-        }
-
-        .apple-checkmark-svg {
-            width: 100px; height: 100px;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 10px 20px rgba(20, 200, 86, 0.2));
-        }
-
-        .circle-path {
-            fill: none;
-            stroke: #14C856;
-            stroke-width: 4.5;
-            stroke-dasharray: 166;
-            stroke-dashoffset: 166;
-            animation: syncCircle 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-
-        .check-path {
-            fill: none;
-            stroke: #14C856;
-            stroke-width: 5.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 50;
-            stroke-dashoffset: 50;
-            animation: syncCheck 0.9s cubic-bezier(0.25, 1, 0.5, 1) 0.9s forwards;
-        }
-
-        @keyframes syncCircle { to { stroke-dashoffset: 0; } }
-        @keyframes syncCheck { to { stroke-dashoffset: 0; } }
-
-        .main-title {
-            font-size: 26px;
-            font-weight: 700;
-            color: #111111;
-            letter-spacing: -0.5px;
-            opacity: 0;
-            transform: translateY(12px);
-            animation: titleFadeIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 1.3s forwards;
-        }
-        @keyframes titleFadeIn { to { opacity: 1; transform: translateY(0); } }
-
-
-        /* 🧾 3. ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫЕЗЖАЕТ ИЗ ФОНА В КОНЦЕ) */
         .premium-receipt-card {
-            background: #FFFFFF;
-            border-radius: 32px;
-            padding: 24px;
-            width: 100%;
-            max-width: 358px;
-            text-align: center;
+            background: #FFFFFF; border-radius: 32px; padding: 24px;
+            width: 100%; max-width: 358px; text-align: center;
             box-shadow: 0 25px 55px rgba(0, 0, 0, 0.04);
-            z-index: 10;
-            position: absolute;
-            bottom: 6%;
-            
-            opacity: 0;
-            transform: scale(0.96) translateY(35px);
-            /* Появляется на 2.6 сек, когда все внешние переливы угасли */
-            animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.6s forwards;
+            opacity: 0; transform: scale(0.96) translateY(20px);
+            animation: fadeInContent 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.3s forwards;
         }
 
         .subtitle { font-size: 14px; color: #8E8E93; line-height: 1.4; margin-bottom: 20px; }
-
-        .info-container {
-            background: #F8F9FA;
-            border-radius: 18px;
-            padding: 16px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(0, 0, 0, 0.005);
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
+        .info-container { background: #F8F9FA; border-radius: 18px; padding: 16px; margin-bottom: 24px; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px; }
         .info-row:last-child { margin-bottom: 0; }
         .label { color: #8E8E93; }
         .value { color: #111111; font-weight: 500; }
         .value.price { color: #14C856; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; }
 
         .btn-done {
-            display: block;
-            width: 100%;
-            background: #14C856;
-            color: #FFFFFF;
-            border: none;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 24px rgba(20, 200, 86, 0.15);
-            margin-bottom: 16px;
+            display: block; width: 100%; background: #14C856; color: #FFFFFF; border: none;
+            padding: 16px; font-size: 16px; font-weight: 600; border-radius: 16px; cursor: pointer;
+            box-shadow: 0 8px 24px rgba(20, 200, 86, 0.15); margin-bottom: 16px;
         }
-        .btn-done:active { transform: scale(0.98); filter: brightness(0.9); }
-        
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        @keyframes receiptRevealEase {
+        @keyframes fadeInContent {
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🔮 ГРАДИЕНТНАЯ АУРА С АВТОМАТИЧЕСКИМ ВЫРЕЗОМ ПО ЦЕНТРУ -->
-    <div class="aura-screen-wrapper">
-        <div class="plasma-layer"></div>
+    <!-- 🟢 СЛОЙ ДЛЯ ТОПОВОЙ АНИМАЦИИ (Вставь сюда отрендеренный mp4/webm или скрипт Lottie) -->
+    <div class="ai-animation-overlay">
+        <!-- Пример с видео-шлейфом:
+        <video autoplay muted playsinline src="your-premium-gemini-wave.webm"></video> 
+        -->
     </div>
 
-    <!-- 🪐 ЕДИНОЕ ИИ-ЯДРО (В ЧИСТОЙ ЗОНЕ БЕЗ ГРАДИЕНТА) -->
-    <div class="core-success-block">
-        <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
-            <circle class="circle-path" cx="26" cy="26" r="24.5"/>
-            <path class="check-path" d="M16 27.5 L22.5 34 L36.5 19.5"/>
-        </svg>
-        <h1 class="main-title">Оплата прошла успешно!</h1>
-    </div>
-
-    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY -->
-    <div class="premium-receipt-card">
-        <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
-
-        <div class="info-container">
-            <div class="info-row">
-                <span class="label">Назначение</span>
-                <span class="value">Оплата услуги</span>
-            </div>
-            <div class="info-row">
-                <span class="label">Сумма</span>
-                <span class="value price">1.00 ₽</span>
-            </div>
-            <div class="info-row">
-                <span class="label">Номер платежа</span>
-                <span class="value">#482910</span>
-            </div>
-        </div>
-
-        <button class="btn-done">Закрыть страницу</button>
+    <!-- КОНТЕНТНАЯ ЧАСТЬ -->
+    <div class="content-layer">
         
-        <div class="brand-footer">
-            Платёжная система <span>DxS Pay</span>
+        <div class="success-header">
+            <!-- Сюда можно также вставить красивую Lottie-галочку -->
+            <h1 style="font-size: 26px; font-weight: 700; color: #111111;">Оплата прошла успешно!</h1>
         </div>
+
+        <div class="premium-receipt-card">
+            <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
+            <div class="info-container">
+                <div class="info-row"><span class="label">Назначение</span><span class="value">Оплата услуги</span></div>
+                <div class="info-row"><span class="label">Сумма</span><span class="value price">1.00 ₽</span></div>
+                <div class="info-row"><span class="label">Номер платежа</span><span class="value">#482910</span></div>
+            </div>
+            <button class="btn-done">Закрыть страницу</button>
+            <div class="brand-footer">Платёжная система <span>DxS Pay</span></div>
+        </div>
+
     </div>
 
 </body>
