@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Celebration Success</title>
-    <!-- Подключаем ультралегкую и плавную библиотеку конфетти (мировой стандарт) -->
-    <script src="https://jsdelivr.net"></script>
+    <title>DxS Pay | Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -13,7 +11,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            background-color: #FFFFFF; /* Чистый премиальный фон */
+            background-color: #FFFFFF; /* Чистый белый фон */
         }
 
         body {
@@ -23,6 +21,16 @@
             justify-content: center;
             align-items: center;
             padding: 24px;
+            position: relative;
+        }
+
+        /* 🪐 ХОЛСТ ДЛЯ АВТОНОМНОГО КОНФЕТТИ */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 5;
         }
 
         /* 🪐 ЦЕНТРАЛЬНЫЙ БЛОК */
@@ -33,6 +41,7 @@
             align-items: center;
             margin-bottom: 24px;
             width: 100%;
+            z-index: 10;
         }
 
         .apple-checkmark-svg {
@@ -60,11 +69,10 @@
             stroke-linejoin: round;
             stroke-dasharray: 60;
             stroke-dashoffset: 60;
-            /* Стрелка вылетает ровно к слову "Успешно" на 1.2 сек */
             animation: drawCheck 0.4s cubic-bezier(0.4, 0, 0.2, 1) 1.2s forwards;
         }
 
-        /* 🎤 СТИЛИ ДЛЯ ПОЭТАПНОГО ВЫЛЕТА СЛОВ (APPLE STYLE) */
+        /* ПОЭТАПНЫЙ ВЫЛЕТ СЛОВ */
         .word-container {
             display: flex;
             flex-direction: column;
@@ -81,32 +89,18 @@
             transform: translateY(15px);
         }
 
-        /* Слово 1: Оплата */
-        .word-1 {
-            animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards;
-        }
-
-        /* Слово 2: прошла */
-        .word-2 {
-            animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards;
-        }
-
-        /* Слово 3: успешно! */
+        .word-1 { animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards; }
+        .word-2 { animation: wordPopIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.8s forwards; }
         .word-3 {
-            color: #14C856; /* Выделяем финальное триумфальное слово твоим зеленым цветом */
-            font-size: 32px; /* Чуть крупнее для акцента */
+            color: #14C856;
+            font-size: 32px;
             animation: wordPopInIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
         }
 
-        @keyframes wordPopIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Финальное слово влетает с легким пружинящим эффектом */
-        @keyframes wordPopInIn {
-            to { opacity: 1; transform: translateY(0) scale(1.05); }
-        }
+        @keyframes wordPopIn { to { opacity: 1; transform: translateY(0); } }
+        @keyframes wordPopInIn { to { opacity: 1; transform: translateY(0) scale(1.05); } }
 
-        /* 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (ВЫКАТЫВАЕТСЯ ПОЗЖЕ) */
+        /* 🧾 ЧЕК DXS PAY */
         .premium-receipt-card {
             background: #FFFFFF;
             border-radius: 32px;
@@ -115,10 +109,10 @@
             max-width: 358px;
             text-align: center;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+            z-index: 10;
             
             opacity: 0;
             transform: scale(0.96) translateY(30px);
-            /* Выкатывается на 2.4 секунде, когда салют из конфетти уже в разгаре */
             animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.4s forwards;
         }
 
@@ -163,13 +157,15 @@
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        /* Базовые тайминги анимаций */
         @keyframes drawCircle { to { stroke-dashoffset: 0; } }
         @keyframes drawCheck { to { stroke-dashoffset: 0; } }
         @keyframes receiptRevealEase { to { opacity: 1; transform: scale(1) translateY(0); } }
     </style>
 </head>
 <body>
+
+    <!-- Нативный холст для конфетти -->
+    <canvas id="confetti-canvas"></canvas>
 
     <!-- 🪐 ЦЕНТРАЛЬНАЯ ЧАСТЬ -->
     <div class="status-center">
@@ -178,7 +174,6 @@
             <path class="check-path" d="M20 31 L26.5 37.5 L40.5 23"/>
         </svg>
         
-        <!-- Построчный вылет слов -->
         <div class="word-container">
             <div class="word word-1">Оплата</div>
             <div class="word word-2">прошла</div>
@@ -212,27 +207,87 @@
         </div>
     </div>
 
-    <!-- 🚀 СКРИПТ ВЗРЫВА КОНФЕТТИ В СИНХРОНЕ С ПОСЛЕДНИМ СЛОВОМ -->
+    <!-- 🚀 НАДЁЖНЫЙ АВТОНОМНЫЙ ДВИЖОК КОНФЕТТИ НА ЧИСТОМ JS -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Запуск салюта ровно на 1300 мс (момент появления слова "успешно!" и щелчка галочки)
-            setTimeout(() => {
-                // Первый залп из центра
-                confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { y: 0.35 },
-                    colors: ['#14C856', '#A3F7B5', '#0ED95A', '#FFD700', '#FF4136'] // Твои зеленые + золотой и красный для сочности
-                });
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
 
-                // Боковые залпы для объема (эффект стадиона)
-                setTimeout(() => {
-                    confetti({ particleCount: 40, angle: 60, spread: 55, origin: { x: 0, y: 0.4 } });
-                    confetti({ particleCount: 40, angle: 120, spread: 55, origin: { x: 1, y: 0.4 } });
-                }, 150);
-                
-            }, 1300);
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
-    </script>
-</body>
-</html>
+
+        const colors = ['#14C856', '#A3F7B5', '#0ED95A', '#FFD700', '#FF5722'];
+        let particles = [];
+
+        class Particle {
+            constructor(x, y, isSide, sideAngle) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 6 + 5;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                if (isSide) {
+                    // Боковые залпы
+                    let angle = sideAngle + (Math.random() - 0.5) * 0.4;
+                    let speed = Math.random() * 12 + 10;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                } else {
+                    // Центральный взрыв вверх
+                    this.vx = (Math.random() - 0.5) * 12;
+                    this.vy = -(Math.random() * 10 + 10);
+                }
+                
+                this.gravity = 0.35;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 10;
+                this.opacity = 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.vx *= 0.98; // Легкое сопротивление воздуха
+                this.rotation += this.rotationSpeed;
+                if (this.vy > 2) {
+                    this.opacity -= 0.015; // Медленное растворение при падении
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.globalAlpha = Math.max(0, this.opacity);
+                ctx.fillStyle = this.color;
+                // Рисуем прямоугольные конфеттишки
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size * 0.6);
+                ctx.restore();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles = particles.filter(p => p.opacity > 0 && p.y < height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            if (particles.length > 0) {
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function fireConfetti() {
+            // 1. Центральный салют под словом успешно
+            for (let i = 0; i < 80; i++) {
+                particles.push(new Particle(width / 2, height * 0.35, false));
+            }
+            // 2. Левый и правый фонтаны для масштаба стадиона
+            setTimeout(() => {
+                for (let i = 0; i < 30; i++) {particles.push(new Particle(0, height * 0.5, true, -Math.PI / 4)); // Стреляет вправо-вверхparticles.push(new Particle(width, height * 0.5, true, -3 * Math.PI / 4)); // Стреляет влево-вверх}}, 150);animate();}// Запуск триумфа ровно на 1300мс в синхроне со словом "успешно!"setTimeout(fireConfetti, 1300);
