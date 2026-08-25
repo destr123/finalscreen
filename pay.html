@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>DxS Pay | Оплата</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #F4F6F8; /* Твой мягкий серый фон страницы */
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Roboto, sans-serif;
+            color: #111111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Логотип бренда */
+        .brand-container {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .brand-logo {
+            height: 42px; /* Подгони под размер своей картинки DxS */
+            margin-bottom: 4px;
+        }
+
+        /* 💳 ОСНОВНАЯ ПРЕМИАЛЬНАЯ КАРТОЧКА */
+        .payment-card {
+            background: #FFFFFF;
+            border-radius: 32px;
+            width: 100%;
+            max-width: 390px;
+            padding: 32px 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01), 0 20px 40px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Блок суммы */
+        .amount-block {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .amount-value {
+            font-size: 38px;
+            font-weight: 800; /* Жирный дорогой шрифт */
+            color: #111111;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .amount-value span {
+            font-weight: 500;
+            font-size: 32px;
+            margin-left: 4px;
+        }
+        /* Бейдж для назначения платежа */
+        .badge-info {
+            display: inline-block;
+            background: #F0F2F5;
+            color: #666666;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* Стили полей ввода */
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1C1C1E;
+            margin-bottom: 10px;
+        }
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 28px;
+        }
+        .phone-input {
+            width: 100%;
+            padding: 16px 16px 16px 54px; /* Место под флаг */
+            font-size: 16px;
+            font-weight: 500;
+            border: 1px solid #E5E7EB; /* Мягкая граница */
+            border-radius: 18px;
+            outline: none;
+            transition: all 0.25s ease;
+            background: #FFFFFF;
+            color: #111111;
+        }
+        /* Подсветка инпута при клике */
+        .phone-input:focus {
+            border-color: #14C856;
+            box-shadow: 0 0 0 4px rgba(20, 200, 86, 0.1);
+        }
+        .flag-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        /* 🟢 СПОСОБЫ ОПЛАТЫ (МЕТОДЫ) */
+        .method-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        /* Скрываем дефолтный радио-кружок */
+        .method-option input[type="radio"] {
+            display: none;
+        }
+
+        .method-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px;
+            border: 1px solid #E5E7EB;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #FFFFFF;
+        }
+
+        .method-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .method-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        .method-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111111;
+        }
+
+        /* 💥 ТА САМАЯ АККУРАТНАЯ ВСТРОЕННАЯ ПЛАШКА УДОБНО */
+        .premium-badge {
+            background: rgba(20, 200, 86, 0.1);
+            color: #14C856;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-left: 4px;
+        }
+
+        /* Кастомный премиальный кружок */
+        .custom-radio {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #D1D5DB;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .custom-radio::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.2s ease;
+        }
+
+        /* ИНТЕРАКТИВ ПРИ ВЫБОРЕ СПОСОБА ОПЛАТЫ */
+        .method-option input[type="radio"]:checked + .method-label {
+            border-color: #14C856;
+            background: rgba(20, 200, 86, 0.02);
+        }
+        .method-option input[type="radio"]:checked + .method-label .custom-radio {
+            border-color: #14C856;
+            background: #14C856;
+        }
+        .method-option input[type="radio"]:checked + .method-label .custom-radio::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Сноска соглашения */
+        .legal-text {
+            font-size: 12px;
+            color: #8E8E93;
+            text-align: center;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+        .legal-text a {
+            color: #666666;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Логотип системы -->
+    <div class="brand-container">
+        <!-- Замени src на путь к своей картинке DxS -->
+        <img class="brand-logo" src="logo.png" alt="DxS Pay">
+    </div>
+
+    <!-- Главная карточка -->
+    <div class="payment-card">
+        
+        <!-- Блок суммы -->
+        <div class="amount-block">
+            <div class="amount-value">1.00<span>₽</span></div>
+            <div class="badge-info">тест</div>
+        </div>
+
+        <!-- Поле телефона -->
+        <div class="section-title">Номер телефона</div>
+        <div class="input-wrapper">
+            <span class="flag-icon">🇷🇺</span>
+            <input class="phone-input" type="tel" placeholder="+7 (999) 123-45-67">
+        </div>
+
+        <!-- Способы оплаты -->
+        <div class="section-title">Способ оплаты</div>
+        <div class="method-group">
+            
+            <!-- Опция 1: СБП -->
+            <div class="method-option">
+                <input type="radio" id="pay-sbp" name="payment-method" checked>
+                <label for="pay-sbp" class="method-label">
+                    <div class="method-left">
+                        <!-- Замени src на свою иконку СБП -->
+                        <img class="method-icon" src="sbp-icon.png" alt="СБП">
+                        <span class="method-name">СБП <span class="premium-badge">Удобно</span></span>
+                    </div>
+                    <div class="custom-radio"></div>
+                </label>
+            </div>
+
+            <!-- Опция 2: Карта -->
+            <div class="method-option">
+                <input type="radio" id="pay-card" name="payment-method">
+                <label for="pay-card" class="method-label">
+                    <div class="method-left">
+                        <!-- Замени src на свою иконку карты -->
+                        <img class="method-icon" src="card-icon.png" alt="Карта">
+                        <span class="method-name">Банковская карта</span>
+                    </div>
+                    <div class="custom-radio"></div>
+                </label>
+            </div>
+
+        </div>
+
+        <!-- Юридическая плашка -->
+        <div class="legal-text">
+            Нажимая кнопку, вы соглашаетесь с <a href="#">условиями использования</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
