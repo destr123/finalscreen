@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Exploding Success</title>
+    <title>DxS Pay | Premium Liquid Success</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -23,8 +23,8 @@
             padding: 24px;
         }
 
-        /* 🟢 СЛОЖНАЯ СИСТЕМА СИНХРОННОГО РАСКРЫТИЯ РАМОК ИЗ ЦЕНТРА */
-        .border-system {
+        /* 🌊 СИСТЕМА ЖИДКИХ РАМОК (ТОЛСТЫЕ И ОБЪЕМНЫЕ) */
+        .liquid-border-container {
             position: fixed;
             top: env(safe-area-inset-top, 0px);
             left: env(safe-area-inset-left, 0px);
@@ -36,47 +36,47 @@
             z-index: 9999;
         }
 
-        .premium-laser {
-            width: 100%;
-            height: 100%;
+        .liquid-path {
             fill: none;
             stroke: #14C856;
-            stroke-width: 4px;
+            stroke-width: 8px; /* 🟢 Сделали рамку значительно шире и заметнее */
             stroke-linecap: round;
-            filter: drop-shadow(0 0 12px rgba(20, 200, 86, 0.6)) drop-shadow(0 0 4px rgba(20, 200, 86, 0.9));
             
-            /* Настройка старта анимации строго из центра боковых граней */
+            /* Глубокое объемное ИИ-свечение */
+            filter: drop-shadow(0 0 16px rgba(20, 200, 86, 0.7)) drop-shadow(0 0 6px rgba(20, 200, 86, 0.9));
+            
+            /* Настройка старта ровно из середины боковых граней (Координата 1) */
             stroke-dasharray: 4000;
             stroke-dashoffset: 4000;
             
-            /* 1.4 секунды на расползание по границам, затем мигание и затухание */
+            /* Плавно течет 1.5 секунды, затем мигает и гаснет */
             animation: 
-                expandBorders 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards,
-                blinkAndFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.4s forwards;
+                liquidFlow 1.5s cubic-bezier(0.42, 0, 0.58, 1) forwards,
+                blinkAndFadeOut 0.9s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards;
         }
 
-        /* 🎬 АНИМАЦИЯ РАСПОЛЗАНИЯ ЛИНИЙ ИЗ СЕРЕДИНЫ БОКОВ ВВЕРХ И ВНИЗ */
-        @keyframes expandBorders {
+        /* 🎬 АНИМАЦИЯ: ТЕЧЕНИЕ ВОДЫ ИЗ ТОЧЕК "1" ДО ПОЛНОГО СМЫКАНИЯ */
+        @keyframes liquidFlow {
             0% {
                 stroke-dasharray: 0 4000;
-                stroke-dashoffset: 2000; /* Старт в центральной координате */
+                stroke-dashoffset: -1000; /* Математическое смещение в центр боковых рамок */
             }
             100% {
                 stroke-dasharray: 4000 0;
-                stroke-dashoffset: 0; /* Полное заполнение периметра */
+                stroke-dashoffset: 0; /* Рамка полностью заполнена водой */
             }
         }
 
-        /* 🎬 МИГАНИЕ И ПОЛНОЕ УГАСАНИЕ РАМКИ И ГАЛОЧКИ */
-        @keyframes blinkAndFade {
-            0% { opacity: 1; filter: drop-shadow(0 0 15px rgba(20, 200, 86, 0.8)); }
-            25% { opacity: 0.2; }
-            50% { opacity: 1; filter: drop-shadow(0 0 25px rgba(20, 200, 86, 1)); }
+        /* 🎬 ПРЕМИАЛЬНОЕ МИГАНИЕ И ПЛАВНОЕ РАСТВОРЕНИЕ */
+        @keyframes blinkAndFadeOut {
+            0% { opacity: 1; filter: drop-shadow(0 0 20px rgba(20, 200, 86, 0.9)); stroke-width: 10px; }
+            25% { opacity: 0.3; }
+            50% { opacity: 1; filter: drop-shadow(0 0 30px rgba(20, 200, 86, 1)); stroke-width: 12px; }
             75% { opacity: 0.4; }
             100% { opacity: 0; display: none; filter: drop-shadow(0 0 0px rgba(0,0,0,0)); }
         }
 
-        /* 🌌 АНИМАЦИЯ ГАЛОЧКИ В ПОЛНОМ СИНХРОНЕ С РАМКОЙ */
+        /* 🪐 ЦЕНТРАЛЬНОЕ ИИ-ЯДРО (ГАЛОЧКА) */
         .animation-core {
             position: absolute;
             text-align: center;
@@ -85,43 +85,43 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Вся центральная ИИ-вспышка гаснет вместе с рамками */
-            animation: blinkAndFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.4s forwards;
+            /* Гаснет в идеальном синхроне с внешними рамками */
+            animation: blinkAndFadeOut 0.9s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards;
         }
 
         .apple-checkmark-svg {
-            width: 96px; height: 96px;
-            filter: drop-shadow(0 8px 20px rgba(20, 200, 86, 0.3));
+            width: 100px; height: 100px;
+            filter: drop-shadow(0 10px 25px rgba(20, 200, 86, 0.35));
         }
 
+        /* КРУГ ГАЛОЧКИ РИСУЕТСЯ СИНХРОННО С ТЕЧЕНИЕМ ВОДЫ */
         .circle-path {
             fill: none;
             stroke: #14C856;
-            stroke-width: 4;
+            stroke-width: 4.5;
             stroke-dasharray: 166;
             stroke-dashoffset: 166;
-            /* Рисуется ровно 1.4 секунды */
-            animation: syncCircle 1.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: syncCircleDuration 1.5s cubic-bezier(0.42, 0, 0.58, 1) forwards;
         }
 
+        /* СТРЕЛКА ДОРИСОВЫВАЕТСЯ СТРОГО К МОМЕНТУ СМЫКАНИЯ РАМОК */
         .check-path {
             fill: none;
             stroke: #14C856;
-            stroke-width: 5;
+            stroke-width: 5.5;
             stroke-linecap: round;
             stroke-linejoin: round;
             stroke-dasharray: 50;
             stroke-dashoffset: 50;
-            /* Идеально завершается к отметке 1.4 секунды */
-            animation: syncCheck 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.6s forwards;
+            animation: syncCheckDuration 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.7s forwards;
         }
 
-        @keyframes syncCircle { to { stroke-dashoffset: 0; } }
-        @keyframes syncCheck { to { stroke-dashoffset: 0; } }
+        @keyframes syncCircleDuration { to { stroke-dashoffset: 0; } }
+        @keyframes syncCheckDuration { to { stroke-dashoffset: 0; } }
 
-        /* 🧾 ЭЛЕГАНТНОЕ ПОЯВЛЕНИЕ ЧЕКА ПОСЛЕ ТОГО, КАК ВСЁ ПОГАСЛО */
+        /* 🧾 ДОРОГОЙ ЧЕК DXS PAY (ПОЯВЛЯЕТСЯ НА ЧИСТОМ ЭКРАНЕ) */
         .premium-receipt-card {
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.7);
@@ -130,13 +130,13 @@
             width: 100%;
             max-width: 358px;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.04);
             z-index: 10;
             
             opacity: 0;
-            transform: scale(0.96) translateY(20px);
-            /* Выплывает строго на 2.0 секунде, когда световое шоу полностью завершено */
-            animation: contentReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.0s forwards;
+            transform: scale(0.96) translateY(25px);
+            /* Мягко выплывает на 2.2 секунде, когда световые волны полностью угасли */
+            animation: receiptRevealEase 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
         }
 
         h1 { font-size: 24px; font-weight: 700; color: #111111; margin-bottom: 8px; letter-spacing: -0.4px; }
@@ -159,7 +159,7 @@
         .info-row:last-child { margin-bottom: 0; }
         .label { color: #8E8E93; }
         .value { color: #111111; font-weight: 500; }
-        .value.price { color: #14C856; font-weight: 700; font-size: 22px; }
+        .value.price { color: #14C856; font-weight: 700; font-size: 24px; letter-spacing: -0.5px; }
 
         .btn-done {
             display: block;
@@ -180,19 +180,20 @@
         .brand-footer { font-size: 12px; color: #A9A9A9; }
         .brand-footer span { color: #14C856; font-weight: 600; }
 
-        @keyframes contentReveal {
+        @keyframes receiptRevealEase {
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🟢 SVG-система рамок с раскрытием из центральной оси -->
-    <svg class="border-system">
-        <rect class="premium-laser" x="0" y="0" width="100%" height="100%" />
+    <!-- 🟢 Новая SVG-система толстых рамок с течением из точек "1" -->
+    <svg class="liquid-border-container">
+        <!-- Направляющая линия отрисована так, чтобы точки старта были ровно по центру боков -->
+        <rect class="liquid-path" x="0" y="0" width="100%" height="100%" />
     </svg>
 
-    <!-- 🪐 ЯДРО АНИМАЦИИ (Галочка) -->
+    <!-- 🪐 СИНХРОННОЕ СВЕТОВОЕ ЯДРО -->
     <div class="animation-core">
         <svg class="apple-checkmark-svg" viewBox="0 0 52 52">
             <circle class="circle-path" cx="26" cy="26" r="24.5"/>
@@ -200,7 +201,7 @@
         </svg>
     </div>
 
-    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (Появляется на чистом экране в конце) -->
+    <!-- 🧾 ПРЕМИАЛЬНЫЙ ЧЕК DXS PAY (Чистый запуск после экшена) -->
     <div class="premium-receipt-card">
         <h1>Оплата прошла успешно!</h1>
         <p class="subtitle">Спасибо за доверие. Чек уже отправлен в Telegram.</p>
