@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мой Кошелёк</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* ============================================================
+       БАЗОВЫЕ СТИЛИ
+    ============================================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #F5F7FA;
+      color: #1A1A2E;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* ============================================================
+       КОНТЕЙНЕР
+    ============================================================ */
+    .app {
+      max-width: 420px;
+      width: 100%;
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      min-height: 600px;
+      position: relative;
+    }
+
+    /* ============================================================
+       ШАПКА
+    ============================================================ */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1A1A2E;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      position: relative;
+      padding: 4px;
+    }
+
+    .badge-dot {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      height: 8px;
+      background: #FF3B30;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    /* ============================================================
+       КАРТА (3D переворот)
+    ============================================================ */
+    .card-container {
+      perspective: 1000px;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .card-inner {
+      position: relative;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      min-height: 200px;
+    }
+
+    .card-inner.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front,
+    .card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      color: white;
+      box-shadow: 0 20px 60px rgba(26, 26, 46, 0.3);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 200px;
+    }
+
+    .card-front .label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .card-front .balance {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-top: 4px;
+    }
+
+    .card-front .hint {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+      opacity: 0.6;
+    }
+
+    .card-back {
+      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      color: white;
+      box-shadow: 0 20px 60px rgba(26, 26, 46, 0.3);
+      transform: rotateY(180deg);
+      min-height: 200px;
+    }
+
+    .card-back .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-back .label-sm {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 2px;
+    }
+
+    .card-back .card-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      letter-spacing: 0.1em;
+    }
+
+    .card-back .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card-back .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .status-badge.active {
+      background: rgba(0, 200, 83, 0.2);
+      color: #00C853;
+    }
+
+    .status-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-badge.active .dot {
+      background: #00C853;
+    }
+
+    .card-back .back-hint {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.3;
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       СТРОКА-УВЕДОМЛЕНИЕ
+    ============================================================ */
+    .invoice-row {
+      width: 100%;
+      border-radius: 12px;
+      background: #F1F5F9;
+      padding: 12px 16px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    .invoice-row:hover {
+      background: #E2E8F0;
+    }
+
+    .invoice-row .content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    .invoice-row .content .arrow {
+      margin-left: auto;
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .invoice-row .content strong {
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       БЛОК "ПОСЛЕДНИЙ ЗАКАЗ"
+    ============================================================ */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94A3B8;
+      margin-bottom: 8px;
+    }
+
+    .order-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      padding: 14px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 16px;
+    }
+
+    .order-card .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .order-card .left .icon {
+      font-size: 24px;
+    }
+
+    .order-card .left .name {
+      font-weight: 500;
+      color: #1A1A2E;
+    }
+
+    .order-card .left .time {
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .order-card .amount {
+      font-weight: 600;
+      color: #FF3B30;
+    }
+
+    /* ============================================================
+       КНОПКИ
+    ============================================================ */
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: #0052FF;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: #0040CC;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #1A1A2E;
+      border: 1px solid #E2E8F0;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+    }
+
+    /* ============================================================
+       ЭКРАН ОПЛАТЫ (скрыт по умолчанию)
+    ============================================================ */
+    .screen-payment {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .screen-payment.active {
+      display: block;
+    }
+
+    .screen-main.hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Шапка экрана оплаты */
+    .payment-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #F1F5F9;
+    }
+
+    .payment-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* Карточка счёта */
+    .invoice-card {
+      background: white;
+      padding: 16px 20px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 20px;
+    }
+
+    .invoice-card .top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .invoice-card .top .icon-box {
+      font-size: 24px;
+      padding: 8px;
+      background: #F0F7FF;
+      border-radius: 10px;
+    }
+
+    .invoice-card .top .info {
+      flex: 1;
+    }
+
+    .invoice-card .top .info .label {
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .invoice-card .top .info .number {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .invoice-card .top .info .supplier {
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .invoice-card .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #F1F5F9;
+    }
+
+    .invoice-card .bottom .due {
+      font-size: 12px;
+      color: #94A3B8;
+    }
+
+    .invoice-card .bottom .amount {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1A1A2E;
+    }
+
+    /* Поле номера пользователя */
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1A1A2E;
+      margin-bottom: 6px;
+    }
+
+    .field-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .field-group input:focus {
+      border-color: #0052FF;
+      box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.1);
+    }
+
+    .field-group .hint {
+      font-size: 12px;
+      color: #94A3B8;
+      margin-top: 4px;
+    }
+
+    /* Способы оплаты */
+    .methods-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .method-btn {
+      padding: 12px 8px;
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      background: white;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .method-btn:hover {
+      border-color: #CBD5E1;
+    }
+
+    .method-btn.active {
+      border-color: #0052FF;
+      background: #F0F7FF;
+    }
+
+    .method-btn .icon {
+      font-size: 22px;
+      display: block;
+    }
+
+    .method-btn .label {
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 2px;
+      color: #1A1A2E;
+    }
+
+    .method-btn .details {
+      font-size: 10px;
+      color: #94A3B8;
+    }
+
+    .method-btn .check {
+      display: none;
+      font-size: 10px;
+      color: #0052FF;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .method-btn.active .check {
+      display: block;
+    }
+
+    /* Детали выбранного способа */
+    .method-details {
+      background: white;
+      padding: 14px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .method-details .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .method-details .row .change {
+      color: #0052FF;
+      font-size: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .method-details .balance-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .method-details .balance-info .line {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .method-details .balance-info .line .val {
+      font-weight: 500;
+    }
+
+    .method-details .balance-info .line .val.red { color: #FF3B30; }
+    .method-details .balance-info .line .val.green { color: #00C853; }
+
+    .method-details .divider {
+      border: none;
+      border-top: 1px solid #F1F5F9;
+      margin: 6px 0;
+    }
+
+    /* Кнопка оплаты */
+    .btn-pay {
+      width: 100%;
+      padding: 16px;
+      background: #0052FF;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.25);
+    }
+
+    .btn-pay:hover {
+      background: #0040CC;
+      transform: translateY(-1px);
+    }
+
+    .btn-pay:active {
+      transform: scale(0.98);
+    }
+
+    /* ============================================================
+       МОБИЛЬНАЯ АДАПТАЦИЯ
+    ============================================================ */
+    @media (max-width: 480px) {
+      .app {
+        padding: 16px;
+        border-radius: 16px;
+      }
+
+      .card-front .balance {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ============================================================
+       ГЛАВНЫЙ ЭКРАН
+  ============================================================ -->
+  <div class="screen-main" id="screenMain">
+    
+    <!-- Шапка -->
+    <header class="header">
+      <h1>Мой Кошелёк</h1>
+      <div class="header-actions">
+        <button class="header-btn" id="notifBtn">
+          🔔
+          <span class="badge-dot" id="notifDot"></span>
+        </button>
+        <div class="avatar">JD</div>
+      </div>
+    </header>
+
+    <!-- Карта -->
+    <div class="card-container" id="cardContainer">
+      <div class="card-inner" id="cardInner">
+        <!-- Лицевая сторона -->
+        <div class="card-front">
+          <span class="label">Balance</span>
+          <span class="balance" id="balanceDisplay">$1,247.50</span>
+          <span class="hint">👆 Нажмите для деталей</span>
+        </div>
+        <!-- Оборотная сторона -->
+        <div class="card-back">
+          <div>
+            <div class="label-sm">Номер карты</div>
+            <div class="card-number">● ● ● ●  ● ● ● ●  ● ● ● ●  1234</div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div class="label-sm">Держатель</div>
+              <div style="font-weight:500;">JOHN DOE</div>
+            </div>
+            <div>
+              <div class="label-sm">Срок</div>
+              <div style="font-weight:500;">12/26</div>
+            </div>
+          </div>
+          <div class="row">
+            <span style="font-size:13px; opacity:0.5;">Виртуальная карта</span>
+            <span class="status-badge active" id="statusBadge">
+              <span class="dot"></span>
+              <span id="statusText">Активна</span>
+            </span>
+          </div>
+          <div class="back-hint">👆 Нажмите для возврата</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Строка-уведомление (показывается если есть счёт) -->
+    <div id="invoiceRowContainer">
+      <!-- Вставляется через JS -->
+    </div>
+
+    <!-- Последний заказ -->
+    <div class="section-label">Последний заказ</div>
+    <div class="order-card">
+      <div class="left">
+        <span class="icon">🍕</span>
+        <div>
+          <div class="name">Пицца Мафия</div>
+          <div class="time">2 мин назад</div>
+        </div>
+      </div>
+      <span class="amount">-$89.50</span>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="actions">
+      <button class="btn-primary" id="topUpBtn">💰 Пополнить</button>
+      <button class="btn-secondary" id="historyBtn">📋 Все заказы</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ЭКРАН ОПЛАТЫ
+  ============================================================ -->
+  <div class="screen-payment" id="screenPayment">
+
+    <!-- Шапка -->
+    <div class="payment-header">
+      <button class="back-btn" id="backBtn">←</button>
+      <h2>Оплата счёта</h2>
+    </div>
+
+    <!-- Информация о счёте -->
+    <div class="invoice-card" id="invoiceCard">
+      <div class="top">
+        <div class="icon-box">📄</div>
+        <div class="info">
+          <div class="label">Счёт</div>
+          <div class="number" id="invoiceNumberDisplay">№123455</div>
+          <div class="supplier" id="supplierDisplay">ООО "Ромашка"</div>
+        </div>
+      </div>
+      <div class="bottom">
+        <span class="due" id="dueDisplay">до 15 сентября 2026</span>
+        <span class="amount" id="amountDisplay">$340.00</span>
+      </div>
+    </div>
+
+    <!-- Номер пользователя -->
+    <div class="field-group">
+      <label>👤 Номер пользователя</label>
+      <input type="tel" id="userPhoneInput" value="+7 123 456-78-90" />
+      <div class="hint">Ваш номер для идентификации</div>
+    </div>
+
+    <!-- Способы оплаты -->
+    <label style="display:block; font-size:14px; font-weight:500; margin-bottom:8px;">💳 Способ оплаты</label>
+    <div class="methods-grid" id="methodsGrid">
+      <button class="method-btn active" data-method="card">
+        <span class="icon">💳</span>
+        <div class="label">Карта</div>
+        <div class="details">●●●● 1234</div>
+        <div class="check">✅ Выбрано</div>
+      </button>
+      <button class="method-btn" data-method="sbp">
+        <span class="icon">📱</span>
+        <div class="label">СБП</div>
+        <div class="details">по номеру</div>
+        <div class="check">✅ Выбрано</div>
+      </button>
+      <button class="method-btn" data-method="balance">
+        <span class="icon">💰</span>
+        <div class="label">Баланс</div>
+        <div class="details">$1,247.50</div>
+        <div class="check">✅ Выбрано</div>
+      </button>
+    </div>
+
+    <!-- Детали выбранного способа -->
+    <div class="method-details" id="methodDetails">
+      <!-- Вставляется через JS -->
+    </div>
+
+    <!-- Кнопка оплаты -->
+    <button class="btn-pay" id="payBtn">💳 Оплатить $340.00</button>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+//  ДАННЫЕ
+// ============================================================
+const APP_STATE = {
+  // Данные карты
+  card: {
+    balance: 1247.50,
+    holderName: 'JOHN DOE',
+    cardNumber: '4532 **** **** 1234',
+    expiry: '12/26',
+    status: 'active', // 'active' | 'inactive'
+  },
+  
+  // Счёт (если null — уведомление не показывается)
+  invoice: {
+    number: '123455',
+    supplier: 'ООО "Ромашка"',
+    amount: 340.00,
+    dueDate: '15 сентября 2026',
+  },
+  
+  // Текущий экран: 'main' | 'payment'
+  currentScreen: 'main',
+  
+  // Выбранный способ оплаты
+  selectedMethod: 'card', // 'card' | 'sbp' | 'balance'
+  
+  // Номер пользователя
+  userPhone: '+7 123 456-78-90',
+};
+
+// ============================================================
+//  ЭЛЕМЕНТЫ DOM
+// ============================================================
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+const screenMain = $('#screenMain');
+const screenPayment = $('#screenPayment');
+const cardInner = $('#cardInner');
+const balanceDisplay = $('#balanceDisplay');
+const invoiceRowContainer = $('#invoiceRowContainer');
+const backBtn = $('#backBtn');
+const payBtn = $('#payBtn');
+const userPhoneInput = $('#userPhoneInput');
+const methodDetails = $('#methodDetails');
+const invoiceNumberDisplay = $('#invoiceNumberDisplay');
+const supplierDisplay = $('#supplierDisplay');
+const dueDisplay = $('#dueDisplay');
+const amountDisplay = $('#amountDisplay');
+
+// ============================================================
+//  ФУНКЦИЯ: ОБНОВЛЕНИЕ КАРТЫ
+// ============================================================
+function updateCard() {
+  const { balance, holderName, cardNumber, expiry, status } = APP_STATE.card;
+  
+  // Баланс на лицевой стороне
+  balanceDisplay.textContent = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+  
+  // Статус на обороте
+  const statusText = $('#statusText');
+  const statusBadge = $('#statusBadge');
+  if (status === 'active') {
+    statusText.textContent = 'Активна';
+    statusBadge.className = 'status-badge active';
+  } else {
+    statusText.textContent = 'Заблокирована';
+    statusBadge.className = 'status-badge';
+    statusBadge.style.background = 'rgba(255,59,48,0.2)';
+    statusBadge.style.color = '#FF3B30';
+  }
+}
+
+// ============================================================
+//  ФУНКЦИЯ: ПЕРЕВОРОТ КАРТЫ
+// ============================================================
+$('#cardContainer').addEventListener('click', () => {
+  cardInner.classList.toggle('flipped');
+});
+
+// ============================================================
+//  ФУНКЦИЯ: ОБНОВЛЕНИЕ УВЕДОМЛЕНИЯ О СЧЁТЕ
+// ============================================================
+function updateInvoiceRow() {
+  const invoice = APP_STATE.invoice;
+  
+  if (!invoice) {
+    invoiceRowContainer.innerHTML = '';
+    return;
+  }
+  
+  invoiceRowContainer.innerHTML = `
+    <button class="invoice-row" id="invoiceRowBtn">
+      <div class="content">
+        <span>📄</span>
+        <span>Оплатите счёт <strong>#${invoice.number}</strong></span>
+        <span class="arrow">→</span>
+      </div>
+    </button>
+  `;
+  
+  // Обработчик клика по строке → переход на экран оплаты
+  $('#invoiceRowBtn').addEventListener('click', () => {
+    showPaymentScreen();
+  });
+}
+
+// ============================================================
+//  ФУНКЦИЯ: ПОКАЗАТЬ ЭКРАН ОПЛАТЫ
+// ============================================================
+function showPaymentScreen() {
+  const invoice = APP_STATE.invoice;
+  if (!invoice) return;
+  
+  // Заполняем данные счёта
+  invoiceNumberDisplay.textContent = `№${invoice.number}`;
+  supplierDisplay.textContent = invoice.supplier;
+  dueDisplay.textContent = `до ${invoice.dueDate}`;
+  amountDisplay.textContent = `$${invoice.amount.toFixed(2)}`;
+  payBtn.textContent = `💳 Оплатить $${invoice.amount.toFixed(2)}`;
+  
+  // Показываем экран оплаты, скрываем главный
+  screenMain.classList.add('hidden');
+  screenPayment.classList.add('active');
+  
+  // Обновляем детали способа оплаты
+  updateMethodDetails();
+  
+  APP_STATE.currentScreen = 'payment';
+}
+
+// ============================================================
+//  ФУНКЦИЯ: ПОКАЗАТЬ ГЛАВНЫЙ ЭКРАН
+// ============================================================
+function showMainScreen() {
+  screenPayment.classList.remove('active');
+  screenMain.classList.remove('hidden');
+  APP_STATE.currentScreen = 'main';
+}
+
+// ============================================================
+//  ФУНКЦИЯ: ОБНОВЛЕНИЕ СПОСОБОВ ОПЛАТЫ
+// ============================================================
+function updateMethods() {
+  const methods = $$('.method-btn');
+  methods.forEach(btn => {
+    const method = btn.dataset.method;
+    btn.classList.toggle('active', method === APP_STATE.selectedMethod);
+  });
+  updateMethodDetails();
+}
+
+// ============================================================
+//  ФУНКЦИЯ: ОБНОВЛЕНИЕ ДЕТАЛЕЙ СПОСОБА ОПЛАТЫ
+// ============================================================
+function updateMethodDetails() {
+  const method = APP_STATE.selectedMethod;
+  const balance = APP_STATE.card.balance;
+  const amount = APP_STATE.invoice?.amount || 0;
+  const remaining = balance - amount;
+  
+  let html = '';
+  
+  if (method === 'card') {
+    html = `
+      <div class="row">
+        <span style="color:#475569;">Карта:</span>
+        <span style="font-family:monospace; font-weight:500;">●●●● 1234</span>
+        <button class="change">Изменить</button>
+      </div>
+    `;
+  } else if (method === 'sbp') {
+    html = `
+      <div class="row">
+        <span style="color:#475569;">Банк:</span>
+        <span style="font-weight:500;">Т-Банк</span>
+        <button class="change">Изменить</button>
+      </div>
+    `;
+  } else if (method === 'balance') {
+    html = `
+      <div class="balance-info">
+        <div class="line">
+          <span style="color:#475569;">Доступно:</span>
+          <span class="val">$${balance.toFixed(2)}</span>
+        </div>
+        <div class="line">
+          <span style="color:#475569;">К оплате:</span>
+          <span class="val red">$${amount.toFixed(2)}</span>
+        </div>
+        <hr class="divider" />
+        <div class="line">
+          <span style="color:#475569;">Останется:</span>
+          <span class="val green">$${remaining.toFixed(2)}</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  methodDetails.innerHTML = html;
+}
+
+// ============================================================
+//  ОБРАБОТЧИКИ: ВЫБОР СПОСОБА ОПЛАТЫ
+// ============================================================
+$$('.method-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    APP_STATE.selectedMethod = btn.dataset.method;
+    updateMethods();
+  });
+});
+
+// ============================================================
+//  ОБРАБОТЧИК: КНОПКА "НАЗАД"
+// ============================================================
+backBtn.addEventListener('click', showMainScreen);
+
+// ============================================================
+//  ОБРАБОТЧИК: КНОПКА "ОПЛАТИТЬ"
+// ============================================================
+payBtn.addEventListener('click', () => {
+  const invoice = APP_STATE.invoice;
+  if (!invoice) return;
+  
+  const data = {
+    invoice: invoice.number,
+    user: userPhoneInput.value || APP_STATE.userPhone,
+    method: APP_STATE.selectedMethod,
+    amount: invoice.amount,
+  };
+  
+  console.log('💳 ОПЛАТА:', data);
+  alert(`✅ Счёт #${invoice.number} оплачен!\nСпособ: ${data.method}\nСумма: $${data.amount.toFixed(2)}`);
+  
+  // Убираем счёт (уведомление исчезает)
+  APP_STATE.invoice = null;
+  updateInvoiceRow();
+  
+  // Возврат на главный экран
+  showMainScreen();
+});
+
+// ============================================================
+//  ОБРАБОТЧИК: КНОПКИ В ХЕДЕРЕ
+// ============================================================
+$('#notifBtn').addEventListener('click', () => {
+  if (APP_STATE.invoice) {
+    showPaymentScreen();
+  } else {
+    alert('Нет новых уведомлений');
+  }
+});
+
+$('#topUpBtn').addEventListener('click', () => {
+  alert('💰 Пополнение баланса\n\nДоступные способы:\n• Банковская карта\n• СБП\n• По номеру телефона');
+});
+
+$('#historyBtn').addEventListener('click', () => {
+  alert('📋 История заказов\n\n1. 🍕 Пицца Мафия - $89.50\n2. 📚 Книжный мир - $45.00\n3. 👟 СпортМаркет - $120.00');
+});
+
+// ============================================================
+//  ИНИЦИАЛИЗАЦИЯ
+// ============================================================
+function init() {
+  updateCard();
+  updateInvoiceRow();
+  
+  // Проверяем есть ли счёт → показываем точку уведомления
+  const dot = $('#notifDot');
+  if (APP_STATE.invoice) {
+    dot.style.display = 'block';
+  } else {
+    dot.style.display = 'none';
+  }
+}
+
+init();
+
+// ============================================================
+//  ОБНОВЛЕНИЕ БАЛАНСА (пример — можно вызвать из консоли)
+// ============================================================
+window.updateBalance = (newBalance) => {
+  APP_STATE.card.balance = newBalance;
+  updateCard();
+  updateMethodDetails();
+};
+
+window.addInvoice = (invoiceData) => {
+  APP_STATE.invoice = invoiceData || {
+    number: '67890',
+    supplier: 'ИП "Свет"',
+    amount: 120.00,
+    dueDate: '20 сентября 2026',
+  };
+  updateInvoiceRow();
+  document.getElementById('notifDot').style.display = 'block';
+};
+
+console.log('✅ Приложение загружено!');
+console.log('📖 Доступные функции:');
+console.log('  • updateBalance(1234.56) — обновить баланс');
+console.log('  • addInvoice() — добавить тестовый счёт');
+console.log('  • APP_STATE — посмотреть состояние');
+</script>
+
+</body>
+</html>
