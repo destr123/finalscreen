@@ -3,59 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>DxS Pay | Оплата</title>
+    <title>DxS Pay | Оплата заказа</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: #F4F6F8;
+        }
+
         body {
-            background-color: #F4F6F8; /* Твой мягкий серый фон страницы */
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', Roboto, sans-serif;
             color: #111111;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
+            padding: 40px 16px;
         }
 
-        /* Логотип бренда */
-        .brand-container {
+        /* 🪐 1. ВЕРХНИЙ БЛОК: БРЕНДИНГ */
+        .brand-wrapper {
             text-align: center;
             margin-bottom: 24px;
         }
-        .brand-logo {
-            height: 42px; /* Подгони под размер своей картинки DxS */
-            margin-bottom: 4px;
+        .brand-logo-img {
+            height: 44px;
+            display: block;
+            margin: 0 auto;
         }
 
-        /* 💳 ОСНОВНАЯ ПРЕМИАЛЬНАЯ КАРТОЧКА */
-        .payment-card {
+        /* 💳 2. ОСНОВНАЯ ПРЕМИАЛЬНАЯ КАРТОЧКА ФОРМЫ */
+        .payment-main-card {
             background: #FFFFFF;
             border-radius: 32px;
             width: 100%;
-            max-width: 390px;
-            padding: 32px 24px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.01), 0 20px 40px rgba(0, 0, 0, 0.03);
+            max-width: 380px;
+            padding: 32px 20px 24px 20px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.005), 0 20px 45px rgba(0, 0, 0, 0.025);
         }
 
-        /* Блок суммы */
-        .amount-block {
+        /* Блок отображения цены */
+        .price-display-box {
             text-align: center;
             margin-bottom: 32px;
         }
-        .amount-value {
-            font-size: 38px;
-            font-weight: 800; /* Жирный дорогой шрифт */
+        .price-value {
+            font-size: 40px;
+            font-weight: 800;
             color: #111111;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
+            letter-spacing: -0.8px;
+            margin-bottom: 6px;
         }
-        .amount-value span {
+        .price-value span {
             font-weight: 500;
             font-size: 32px;
-            margin-left: 4px;
+            margin-left: 2px;
+            color: #111111;
         }
-        /* Бейдж для назначения платежа */
-        .badge-info {
+        .order-purpose-badge {
             display: inline-block;
             background: #F0F2F5;
             color: #666666;
@@ -65,35 +71,39 @@
             border-radius: 20px;
         }
 
-        /* Стили полей ввода */
-        .section-title {
-            font-size: 15px;
+        /* Общие заголовки секций */
+        .form-section-title {
+            font-size: 14px;
             font-weight: 600;
-            color: #1C1C1E;
+            color: #8E8E93;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
             margin-bottom: 10px;
+            padding-left: 4px;
         }
-        .input-wrapper {
+
+        /* 📱 3. ПОЛЕ ВВОДА ТЕЛЕФОНА */
+        .phone-input-container {
             position: relative;
             margin-bottom: 28px;
         }
-        .phone-input {
+        .phone-field {
             width: 100%;
-            padding: 16px 16px 16px 54px; /* Место под флаг */
+            padding: 16px 16px 16px 54px;
             font-size: 16px;
             font-weight: 500;
-            border: 1px solid #E5E7EB; /* Мягкая граница */
+            border: 1px solid #E5E7EB;
             border-radius: 18px;
             outline: none;
-            transition: all 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             background: #FFFFFF;
             color: #111111;
         }
-        /* Подсветка инпута при клике */
-        .phone-input:focus {
+        .phone-field:focus {
             border-color: #14C856;
-            box-shadow: 0 0 0 4px rgba(20, 200, 86, 0.1);
+            box-shadow: 0 0 0 4px rgba(20, 200, 86, 0.08);
         }
-        .flag-icon {
+        .country-flag-icon {
             position: absolute;
             left: 18px;
             top: 50%;
@@ -102,20 +112,27 @@
             pointer-events: none;
         }
 
-        /* 🟢 СПОСОБЫ ОПЛАТЫ (МЕТОДЫ) */
-        .method-group {
+        /* 🟢 4. СЕКЦИЯ МЕТОДОВ ОПЛАТЫ */
+        .payment-methods-stack {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
         }
         
-        /* Скрываем дефолтный радио-кружок */
-        .method-option input[type="radio"] {
+        .method-item {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Скрываем нативные кружки радио-кнопок */
+        .method-item input[type="radio"] {
             display: none;
         }
 
-        .method-label {
+        /* Базовая плашка метода */
+        .method-trigger-label {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -125,51 +142,52 @@
             cursor: pointer;
             transition: all 0.25s ease;
             background: #FFFFFF;
+            z-index: 2;
         }
 
-        .method-left {
+        .method-core-left {
             display: flex;
             align-items: center;
             gap: 14px;
         }
-        .method-icon {
-            width: 24px;
-            height: 24px;
+        .method-brand-icon {
+            width: 24px; height: 24px;
             object-fit: contain;
         }
-        .method-name {
+        .method-display-name {
             font-size: 16px;
             font-weight: 600;
             color: #111111;
+            display: flex;
+            align-items: center;
         }
 
-        /* 💥 ТА САМАЯ АККУРАТНАЯ ВСТРОЕННАЯ ПЛАШКА УДОБНО */
-        .premium-badge {
+        /* 💥 ТОТ САМЫЙ ОЧИЩЕННЫЙ ВСТРОЕННЫЙ БЕЙДЖ СБП */
+        .sbp-premium-tag {
             background: rgba(20, 200, 86, 0.1);
             color: #14C856;
             font-size: 11px;
             font-weight: 700;
-            padding: 3px 8px;
+            padding: 2px 7px;
             border-radius: 6px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
-            margin-left: 4px;
+            margin-left: 8px;
         }
 
-        /* Кастомный премиальный кружок */
-        .custom-radio {
-            width: 22px;
-            height: 22px;
+        /* Кастомный круг выбора (пустой) */
+        .ui-custom-radio {
+            width: 22px; height: 22px;
             border: 2px solid #D1D5DB;
             border-radius: 50%;
             position: relative;
             transition: all 0.2s ease;
+            flex-shrink: 0;
         }
-        .custom-radio::after {
+        .ui-custom-radio::after {
             content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 8px; height: 8px;
             background: #FFFFFF;
             border-radius: 50%;
             top: 50%; left: 50%;
@@ -177,95 +195,319 @@
             transition: all 0.2s ease;
         }
 
-        /* ИНТЕРАКТИВ ПРИ ВЫБОРЕ СПОСОБА ОПЛАТЫ */
-        .method-option input[type="radio"]:checked + .method-label {
+        /* 🦾 ИНТЕНСИВНЫЙ ИНТЕРАКТИВ ПРИ КЛИКЕ НА МЕТОД */
+        .method-item input[type="radio"]:checked + .method-trigger-label {
             border-color: #14C856;
-            background: rgba(20, 200, 86, 0.02);
+            background: rgba(20, 200, 86, 0.01);
         }
-        .method-option input[type="radio"]:checked + .method-label .custom-radio {
+        .method-item input[type="radio"]:checked + .method-trigger-label .ui-custom-radio {
             border-color: #14C856;
             background: #14C856;
         }
-        .method-option input[type="radio"]:checked + .method-label .custom-radio::after {
+        .method-item input[type="radio"]:checked + .method-trigger-label .ui-custom-radio::after {
             transform: translate(-50%, -50%) scale(1);
         }
 
-        /* Сноска соглашения */
-        .legal-text {
+        /* 🏦 5. МОНОЛИТНЫЙ ВЫПАДАЮЩИЙ БЛОК БАНКОВ СБП */
+        .banks-hidden-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+        }
+
+        /* Магия чистого CSS: если радио СБП активно — раскрываем список банков */
+        .method-item input[type="radio"]#pay-sbp:checked ~ .banks-hidden-wrapper {
+            max-height: 420px;
+        }
+
+        .banks-inner-box {
+            background: #F8F9FA;
+            border: 1px solid #E5E7EB;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            padding: 16px;
+            margin-top: -8px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1;
+        }
+
+        /* Белое контрастное поле поиска */
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        .lupa-symbol {
+            position: absolute;
+            left: 14px; top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: #A9A9A9;
+        }
+        .search-field-input {
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 11px 12px 11px 36px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .search-field-input:focus {
+            border-color: #14C856;
+        }
+
+        /* Монолитный список строк */
+        .ui-banks-scroller {
+            display: flex;
+            flex-direction: column;
+            background: #FFFFFF;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        /* Строка банка */
+        .bank-row-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #F4F6F8;
+        }
+        .bank-row-item:last-child {
+            border-bottom: none;
+        }
+
+        .bank-row-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .bank-avatar-img {
+            width: 24px; height: 24px;
+            border-radius: 6px;
+            object-fit: contain;
+        }
+        .bank-name-txt {
+            font-size: 14px;
+            font-weight: 500;
+            color: #111111;
+        }
+        .bank-row-arrow {
+            color: #C7C7CC;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        /* Анимация стрелочки вперед при наведении */
+        .bank-row-item:hover {
+            background: rgba(20, 200, 86, 0.02);
+        }
+        .bank-row-item:hover .bank-row-arrow {
+            color: #14C856;
+            transform: translateX(3px);
+        }
+
+        /* 🚀 6. КНОПКА ОТПРАВКИ И ЮРИДИЧЕСКИЙ БЛОК */
+        .submit-payment-btn {
+            display: block;
+            width: 100%;
+            background: #14C856;
+            color: #FFFFFF;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 24px rgba(20, 200, 86, 0.15);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .submit-payment-btn:active {
+            transform: scale(0.98);
+            filter: brightness(0.9);
+        }
+
+        .footer-legal-notice {
             font-size: 12px;
             color: #8E8E93;
             text-align: center;
             line-height: 1.5;
-            padding: 0 10px;
+            padding: 0 8px;
         }
-        .legal-text a {
+
+        .footer-legal-notice a {
             color: #666666;
             text-decoration: underline;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 420px) {
+            body { padding: 20px 12px; }
+            .payment-main-card { padding: 24px 16px 20px 16px; }
+            .price-value { font-size: 34px; }
+            .price-value span { font-size: 28px; }
+            .method-trigger-label { padding: 14px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Логотип системы -->
-    <div class="brand-container">
-        <!-- Замени src на путь к своей картинке DxS -->
-        <img class="brand-logo" src="logo.png" alt="DxS Pay">
+    <!-- 🪐 1. ВЕРХНИЙ БЛОК: БРЕНДИНГ -->
+    <div class="brand-wrapper">
+        <img class="brand-logo-img" src="https://via.placeholder.com/120x44/000000/FFFFFF?text=DxS" alt="DxS Pay">
     </div>
 
-    <!-- Главная карточка -->
-    <div class="payment-card">
+    <!-- 💳 2. ОСНОВНАЯ ПРЕМИАЛЬНАЯ КАРТОЧКА ФОРМЫ -->
+    <div class="payment-main-card">
         
-        <!-- Блок суммы -->
-        <div class="amount-block">
-            <div class="amount-value">1.00<span>₽</span></div>
-            <div class="badge-info">тест</div>
+        <!-- Блок отображения цены -->
+        <div class="price-display-box">
+            <div class="price-value">1.00<span>₽</span></div>
+            <span class="order-purpose-badge">тест сбп</span>
         </div>
 
-        <!-- Поле телефона -->
-        <div class="section-title">Номер телефона</div>
-        <div class="input-wrapper">
-            <span class="flag-icon">🇷🇺</span>
-            <input class="phone-input" type="tel" placeholder="+7 (999) 123-45-67">
+        <!-- 📱 3. ПОЛЕ ВВОДА ТЕЛЕФОНА -->
+        <div class="form-section-title">Номер телефона</div>
+        <div class="phone-input-container">
+            <span class="country-flag-icon">🇷🇺</span>
+            <input class="phone-field" type="tel" placeholder="+7 999 999-99-99" value="+7 ">
         </div>
 
-        <!-- Способы оплаты -->
-        <div class="section-title">Способ оплаты</div>
-        <div class="method-group">
+        <!-- 🟢 4. СЕКЦИЯ МЕТОДОВ ОПЛАТЫ -->
+        <div class="form-section-title">Способ оплаты</div>
+        <div class="payment-methods-stack">
             
-            <!-- Опция 1: СБП -->
-            <div class="method-option">
-                <input type="radio" id="pay-sbp" name="payment-method" checked>
-                <label for="pay-sbp" class="method-label">
-                    <div class="method-left">
-                        <!-- Замени src на свою иконку СБП -->
-                        <img class="method-icon" src="sbp-icon.png" alt="СБП">
-                        <span class="method-name">СБП <span class="premium-badge">Удобно</span></span>
+            <!-- 🔹 МЕТОД 1: СБП -->
+            <div class="method-item">
+                <input type="radio" name="payment_method" id="pay-sbp" checked>
+                <label for="pay-sbp" class="method-trigger-label">
+                    <div class="method-core-left">
+                        <img class="method-brand-icon" src="https://via.placeholder.com/24x24/14C856/FFFFFF?text=СБП" alt="СБП">
+                        <span class="method-display-name">
+                            СБП
+                            <span class="sbp-premium-tag">СБП</span>
+                        </span>
                     </div>
-                    <div class="custom-radio"></div>
+                    <span class="ui-custom-radio"></span>
                 </label>
+                
+                <!-- 🏦 Выпадающий блок банков -->
+                <div class="banks-hidden-wrapper">
+                    <div class="banks-inner-box">
+                        <!-- Поле поиска -->
+                        <div class="search-container">
+                            <span class="lupa-symbol">🔍</span>
+                            <input class="search-field-input" type="text" placeholder="Поиск банка...">
+                        </div>
+                        <!-- Список банков -->
+                        <div class="ui-banks-scroller">
+                            <div class="bank-row-item">
+                                <div class="bank-row-left">
+                                    <img class="bank-avatar-img" src="https://via.placeholder.com/24x24/00A55C/FFFFFF?text=С" alt="Сбербанк">
+                                    <span class="bank-name-txt">Сбербанк</span>
+                                </div>
+                                <span class="bank-row-arrow">→</span>
+                            </div>
+                            <div class="bank-row-item">
+                                <div class="bank-row-left">
+                                    <img class="bank-avatar-img" src="https://via.placeholder.com/24x24/FFD700/000000?text=Т" alt="Т-Банк">
+                                    <span class="bank-name-txt">Т-Банк</span>
+                                </div>
+                                <span class="bank-row-arrow">→</span>
+                            </div>
+                            <div class="bank-row-item">
+                                <div class="bank-row-left">
+                                    <img class="bank-avatar-img" src="https://via.placeholder.com/24x24/004D99/FFFFFF?text=В" alt="Банк ВТБ">
+                                    <span class="bank-name-txt">Банк ВТБ</span>
+                                </div>
+                                <span class="bank-row-arrow">→</span>
+                            </div>
+                            <div class="bank-row-item">
+                                <div class="bank-row-left">
+                                    <img class="bank-avatar-img" src="https://via.placeholder.com/24x24/ED1A3D/FFFFFF?text=А" alt="АЛЬФА-БАНК">
+                                    <span class="bank-name-txt">АЛЬФА-БАНК</span>
+                                </div>
+                                <span class="bank-row-arrow">→</span>
+                            </div>
+                            <div class="bank-row-item">
+                                <div class="bank-row-left">
+                                    <img class="bank-avatar-img" src="https://via.placeholder.com/24x24/0066B3/FFFFFF?text=Р" alt="Райффайзен Банк">
+                                    <span class="bank-name-txt">Райффайзен Банк</span>
+                                </div>
+                                <span class="bank-row-arrow">→</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Опция 2: Карта -->
-            <div class="method-option">
-                <input type="radio" id="pay-card" name="payment-method">
-                <label for="pay-card" class="method-label">
-                    <div class="method-left">
-                        <!-- Замени src на свою иконку карты -->
-                        <img class="method-icon" src="card-icon.png" alt="Карта">
-                        <span class="method-name">Банковская карта</span>
+            <!-- 🔹 МЕТОД 2: БАНКОВСКАЯ КАРТА (заглушка) -->
+            <div class="method-item">
+                <input type="radio" name="payment_method" id="pay-card">
+                <label for="pay-card" class="method-trigger-label">
+                    <div class="method-core-left">
+                        <img class="method-brand-icon" src="https://via.placeholder.com/24x24/4A4A4A/FFFFFF?text=💳" alt="Карта">
+                        <span class="method-display-name">Банковская карта</span>
                     </div>
-                    <div class="custom-radio"></div>
+                    <span class="ui-custom-radio"></span>
                 </label>
             </div>
 
         </div>
 
-        <!-- Юридическая плашка -->
-        <div class="legal-text">
-            Нажимая кнопку, вы соглашаетесь с <a href="#">условиями использования</a>
+        <!-- 🚀 6. КНОПКА ОТПРАВКИ -->
+        <button class="submit-payment-btn">Оплатить 1.00 ₽</button>
+
+        <!-- Юридический текст -->
+        <div class="footer-legal-notice">
+            Нажимая кнопку, вы соглашаетесь с <a href="#">условиями использования</a>.
         </div>
 
     </div>
+
+    <!-- Небольшой скрипт для интерактива поиска (опционально) -->
+    <script>
+        (function() {
+            // Простой фильтр банков по поиску
+            const searchInput = document.querySelector('.search-field-input');
+            const bankRows = document.querySelectorAll('.bank-row-item');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    bankRows.forEach(row => {
+                        const name = row.querySelector('.bank-name-txt').textContent.toLowerCase();
+                        if (name.includes(query)) {
+                            row.style.display = 'flex';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Клик по строке банка — можно добавить логику выбора
+            bankRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    const bankName = this.querySelector('.bank-name-txt').textContent;
+                    // Можно сделать что-то с выбранным банком
+                    console.log('Выбран банк:', bankName);
+                });
+            });
+        })();
+    </script>
 
 </body>
 </html>
